@@ -17,6 +17,7 @@ js/ckeditor.min/
 /sitemap.xml
 /_ini.php
 crontab/*
+fonts/*
 !crontab/preprocessors.php
 favicon.png
 favicon.ico
