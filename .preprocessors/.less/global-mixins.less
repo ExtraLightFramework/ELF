@@ -1,0 +1,75 @@
+@app-color: #141414;
+@app-color-light: #539ad7;
+@app-color-ex-light: #d1eaff;
+@app-adv-color: #a0e116;
+
+@app-lnk-color: #0039a6;
+
+@app-cntrls-colors: #ccc;
+@app-cntrls-colors-hover: #50db98;
+
+@app-edit-bgcolor: #252f48;
+@app-edit-lnk-color: #fff;
+@app-edit-lnk-hvr-color: #cad4d6;
+
+@last-news-item-w: 32%;
+@last-news-item-h: 442px;
+@last-news-item-marg: 30px;
+
+@timescale-color: #183153;
+@large-resolution: 1290px;
+@add1-resolution: 1500px;
+@small-resolution: 768px;
+
+@l-res: ~"(min-width: @{large-resolution})";
+@m-res: ~"(max-width: "(@large-resolution - 1)~") and (min-width: @{small-resolution})";
+@s-res: ~"(max-width: "(@small-resolution - 1)~")";
+
+@add1-res: ~"(min-width: @{add1-resolution})";
+
+
+.border-decors(@width: 1px, @style: solid, @color: #000, @rounded: 0px) {
+	border-width: @width;
+	border-style: @style;
+	border-color: @color;
+	border-radius: @rounded;
+	-webkit-border-radius: @rounded;
+	-moz-border-radius: @rounded;
+}
+
+.border-radius-decors(@radius: 3px, @sideh: all, @sidev: all) {
+	& when (@sideh = top) and (@sidev = right) {
+		border-top-right-radius: @radius;
+		-webkit-border-top-right-radius: @radius;
+		-moz-border-radius-topright: @radius;
+	}
+	& when (@sideh = top) and (@sidev = left) {
+		border-top-left-radius: @radius;
+		-webkit-border-top-left-radius: @radius;
+		-moz-border-radius-topleft: @radius;
+	}
+	& when (@sideh = bottom) and (@sidev = right) {
+		border-bottom-right-radius: @radius;
+		-webkit-border-bottom-right-radius: @radius;
+		-moz-border-radius-bottomright: @radius;
+	}
+	& when (@sideh = bottom) and (@sidev = left) {
+		border-bottom-left-radius: @radius;
+		-webkit-border-bottom-left-radius: @radius;
+		-moz-border-radius-bottomleft: @radius;
+	}
+	& when (@sideh = all) and (@sidev = all) {
+		border-radius: @radius;
+		-webkit-border-radius: @radius;
+		-moz-border-radius: @radius;
+	}
+
+}
+
+.rotator(@degrees) {
+	-moz-transform: rotate(~'@{degrees}deg');
+	-ms-transform: rotate(~'@{degrees}deg');
+	-webkit-transform: rotate(~'@{degrees}deg');
+	-o-transform: rotate(~'@{degrees}deg');
+	transform: rotate(~'@{degrees}deg');
+}

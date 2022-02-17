@@ -1,0 +1,260 @@
+@import '../global-mixins.less';
+
+@elf-container-size: 140px;
+@elf-container-bg-color: #ddd;
+@crop-border-width: 1px;
+@crop-marker-offset: -5px;
+
+.elf-uploader {
+	min-width: @elf-container-size;
+	min-height: @elf-container-size;
+	position: relative;
+	overflow: hidden;
+	background-color: @elf-container-bg-color;
+	transition: .5s;
+	margin:5px 0 5px 5px;
+	&-container {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		padding-right: 5px;
+		&-multy {
+			width: 500px;
+		}
+	}
+	img {
+		position: absolute;
+		z-index: 1;
+		height: @elf-container-size;
+		margin: 0 auto;
+	}
+	&-objcrop {
+		overflow: hidden;
+		cursor: crosshair;
+		position: absolute;
+		border: 10px solid #efefef;
+	}
+	&-crop {
+		width: 0;
+		height: 0;
+		left: 0;
+		top: 0;
+		position: absolute;
+		background-color: transparent;
+		z-index: 3;
+		cursor: move;
+		border: @crop-border-width solid #000;
+
+		&-marker {
+			position: absolute;
+			width: 8px;
+			height: 8px;
+			background-color: #fff;
+			border: inherit;
+			&-s {
+				left: calc(50% + @crop-marker-offset);
+				bottom: @crop-marker-offset;
+				cursor: ns-resize;
+			}
+			&-n {
+				left: calc(50% + @crop-marker-offset);
+				top: @crop-marker-offset;
+				cursor: ns-resize;
+			}
+			&-e {
+				right: @crop-marker-offset;
+				top: calc(50% + @crop-marker-offset);
+				cursor: ew-resize;
+			}
+			&-w {
+				left: @crop-marker-offset;
+				top: calc(50% + @crop-marker-offset);
+				cursor: ew-resize;
+			}
+			&-se {
+				right: @crop-marker-offset;
+				bottom: @crop-marker-offset;
+				cursor: nwse-resize;
+			}
+			&-nw {
+				left: @crop-marker-offset;
+				top: @crop-marker-offset;
+				cursor: nwse-resize;
+			}
+			&-sw {
+				left: @crop-marker-offset;
+				bottom: @crop-marker-offset;
+				cursor: nesw-resize;
+			}
+			&-ne {
+				right: @crop-marker-offset;
+				top: @crop-marker-offset;
+				cursor: nesw-resize;
+			}
+		}
+		
+		&-ctrl {
+			position: absolute;
+			bottom: 0px;
+			width: 20px;
+			height: 20px;
+			font-size: 18px;
+			color: #000;
+			padding: 5px;
+			background-color: #fff;
+			border-radius: 3px;
+			cursor: pointer;
+			display: none;
+			i {
+				position: absolute;
+				left: 1px;
+				top: 2px;
+			}
+			&-left { left:0; }
+			&-right { right:0; }
+			&-top {
+				bottom: auto; top: 4px;
+				width: 20px; height: 20px; padding: 5px; z-index:4;
+				font-size: 15px;
+				i {
+					left: 3px;
+				}
+			}
+			&-remove { right: 4px; color: #800; }
+			&-edit { right: 30px; color: #000; }
+			&-moveright {left: 20px;}
+		}
+	}
+	&-status {
+		position: absolute;
+		width: 90%;
+		color: #000;
+		top: 5%;
+		text-align: center;
+		z-index: 20;
+		padding: 20% 5% 5%;
+		font-size: 12px;
+		line-height: 19px;
+		display:none;
+		z-index: 2;
+		background-color: @elf-container-bg-color;
+	}
+	&-info {
+		position: absolute;
+		width: 90%;
+		color: #000;
+		top: 5%;
+		text-align: center;
+		background: transparent url("/img/elf_uploader/640x400bg-mini.png") center center no-repeat;
+		z-index: 2;
+		opacity: .8;
+		padding: 5%;
+		font-size: 12px;
+		line-height: 19px;
+	}
+	&-btns {
+		padding: 3px 10px;
+		display: inline-block;
+		background-color: #aaa;
+		color: #000;
+		border: 1px solid #000;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	&-editbtn {
+		background-color: #00adff;
+		color: #fff;
+		font-size: 12px;
+		padding: 5px 0;
+		width: 80%;
+		border-radius: 5px;
+		border: 1px solid #fff;
+		display: none;
+		position: absolute;
+		bottom: 5%;
+		left: 10%;
+		z-index: 4;
+		text-align: center;
+		outline: none;
+		cursor: pointer;
+		opacity: .5;
+		&:hover { opacity: 1; background-color: #008ddf; }
+	}
+	&-progress {
+		&-icon {
+			position: absolute;
+			display: block;
+			top: 5%;
+			font-size: 15px;
+			left: calc(50% - 8px);
+		}
+		&-bar {
+			position: relative;
+			width: 90%;
+			padding: 3px;
+			border: 1px solid #800;
+		}
+		&-line {
+			position: relative;
+			width: 0;
+			height: 5px;
+			background-color: #800;
+		}
+		&-total { color: #800; }
+	}
+	&-paster {
+		position: absolute;
+		width: 100%;
+		color: #000;
+		padding: 15% 5% 5%;
+		text-align: center;
+		display: none;
+		z-index: 21;
+		background-color: #fdfdfd;
+		&-ctrl { margin:10px; }
+	}
+}
+.elf-cropwnd {
+	position: fixed;
+	width: 96%;
+	height: 96%;
+	left: 2%;
+	top: 2%;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow:0 0 10px rgba(0,0,0,.5);
+	display: none;
+	z-index:1000;
+	&-close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		font-size: 30px;
+		color: #800;
+		z-index: 100;
+		width: 33px;
+		height: 35px;
+		background-color: #fff;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+}
+/*
+===============================================
+=========== Simple Uploader ===================
+===============================================
+*/
+
+.elf-simpleuploader-container {
+	position: relative;
+}
+.elf-simpleuploader-container input[type=button] {
+	width: auto;
+}
+.elf-simpleuploader-info {
+	display: none;
+	color: #000;
+}
+.elf-simpleuploader-info a {
+	color: #000;
+}

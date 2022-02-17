@@ -1,0 +1,1 @@
+<img src="/img/design/no-image.png" class="type-picture" title="поле, содержащее путь до файла картинки" />

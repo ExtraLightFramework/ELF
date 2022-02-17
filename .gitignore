@@ -1,0 +1,25 @@
+###### !!! UNCOMMENT IN DEVELOPMENT !!!
+_install/
+install/
+modules/
+#views/admin.php
+#views/layout.php
+#views/admin/menu.php
+#/.gitignore
+########################
+
+img/*
+!img/design/
+!img/elf_uploader/
+js/ckeditor.min/
+/robots.txt
+/rss.xml
+/sitemap.xml
+/_ini.php
+crontab/*
+!crontab/preprocessors.php
+favicon.png
+favicon.ico
+sync_server.php
+.preprocessors/.less.log
+sync_server_new.php

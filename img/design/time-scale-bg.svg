@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="80px"  width="240px">
+	<g style="stroke:#183153;">
+		<line x1="0" y1="0" x2="0" y2="80" style="stroke-width:5px;"/>
+		<line x1="20" y1="0" x2="20" y2="65" style="stroke-width:1px;"/>
+		<line x1="40" y1="0" x2="40" y2="65" style="stroke-width:1px;"/>
+		<line x1="60" y1="0" x2="60" y2="65" style="stroke-width:1px;"/>
+		<line x1="80" y1="0" x2="80" y2="65" style="stroke-width:1px;"/>
+		<line x1="100" y1="0" x2="100" y2="65" style="stroke-width:1px;"/>
+		<!-- center -->
+		<line x1="120" y1="0" x2="120" y2="70" style="stroke-width:2px;"/>
+		<!-- right part -->
+		<line x1="140" y1="0" x2="140" y2="65" style="stroke-width:1px;"/>
+		<line x1="160" y1="0" x2="160" y2="65" style="stroke-width:1px;"/>
+		<line x1="180" y1="0" x2="180" y2="65" style="stroke-width:1px;"/>
+		<line x1="200" y1="0" x2="200" y2="65" style="stroke-width:1px;"/>
+		<line x1="220" y1="0" x2="220" y2="65" style="stroke-width:1px;"/>
+	</g>
+</svg>

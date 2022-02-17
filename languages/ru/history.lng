@@ -1,0 +1,6 @@
+<?php
+
+$lang['alerts.not.found']	= "Уведомления не найдены";
+$lang['new']				= "новое";
+$lang['showed']				= "прочтенное";
+$lang['system']				= "системное";

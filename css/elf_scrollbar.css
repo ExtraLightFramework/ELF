@@ -1,0 +1,54 @@
+.elf-scrollbar-cont {
+  margin-top: 0;
+  z-index: 1;
+  padding: 5px 0;
+}
+.elf-scrollbar-cont-vertical {
+  position: relative;
+}
+.elf-scrollbar-cont-horizontal {
+  height: inherit;
+  position: absolute;
+}
+.elf-scrollbar {
+  position: absolute;
+  z-index: 2;
+  border-width: 0px;
+  border-style: solid;
+  border-color: #000;
+  border-radius: 8px / 1.5;
+  -webkit-border-radius: 8px / 1.5;
+  -moz-border-radius: 8px / 1.5;
+  opacity: 0.8;
+  transition: opacity 0.5s;
+  cursor: pointer;
+  background-color: #cacaca;
+  overflow: hidden;
+}
+.elf-scrollbar-vertical {
+  width: 8px;
+}
+.elf-scrollbar-horizontal {
+  height: 8px;
+}
+.elf-scrollbar:hover {
+  opacity: 1;
+}
+.elf-scrollbar-cursor {
+  position: absolute;
+  border-radius: 8px;
+  top: 0;
+  left: 0;
+  background-color: #777777;
+}
+.elf-scrollbar-cursor-vertical {
+  width: 8px;
+  height: 16px;
+}
+.elf-scrollbar-cursor-horizontal {
+  height: 8px;
+  width: 16px;
+}
+.elf-scrollbar-cursor:hover {
+  background-color: #444444;
+}

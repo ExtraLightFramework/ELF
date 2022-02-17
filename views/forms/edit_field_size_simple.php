@@ -1,0 +1,1 @@
+<input type="text" readonly="readonly" value="<% size %>" name="size" />

@@ -1,0 +1,271 @@
+.elf-uploader {
+  min-width: 140px;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+  transition: 0.5s;
+  margin: 5px 0 5px 5px;
+}
+.elf-uploader-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: 5px;
+}
+.elf-uploader-container-multy {
+  width: 500px;
+}
+.elf-uploader img {
+  position: absolute;
+  z-index: 1;
+  height: 140px;
+  margin: 0 auto;
+}
+.elf-uploader-objcrop {
+  overflow: hidden;
+  cursor: crosshair;
+  position: absolute;
+  border: 10px solid #efefef;
+}
+.elf-uploader-crop {
+  width: 0;
+  height: 0;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background-color: transparent;
+  z-index: 3;
+  cursor: move;
+  border: 1px solid #000;
+}
+.elf-uploader-crop-marker {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border: inherit;
+}
+.elf-uploader-crop-marker-s {
+  left: calc(50% + -5px);
+  bottom: -5px;
+  cursor: ns-resize;
+}
+.elf-uploader-crop-marker-n {
+  left: calc(50% + -5px);
+  top: -5px;
+  cursor: ns-resize;
+}
+.elf-uploader-crop-marker-e {
+  right: -5px;
+  top: calc(50% + -5px);
+  cursor: ew-resize;
+}
+.elf-uploader-crop-marker-w {
+  left: -5px;
+  top: calc(50% + -5px);
+  cursor: ew-resize;
+}
+.elf-uploader-crop-marker-se {
+  right: -5px;
+  bottom: -5px;
+  cursor: nwse-resize;
+}
+.elf-uploader-crop-marker-nw {
+  left: -5px;
+  top: -5px;
+  cursor: nwse-resize;
+}
+.elf-uploader-crop-marker-sw {
+  left: -5px;
+  bottom: -5px;
+  cursor: nesw-resize;
+}
+.elf-uploader-crop-marker-ne {
+  right: -5px;
+  top: -5px;
+  cursor: nesw-resize;
+}
+.elf-uploader-crop-ctrl {
+  position: absolute;
+  bottom: 0px;
+  width: 20px;
+  height: 20px;
+  font-size: 18px;
+  color: #000;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  display: none;
+}
+.elf-uploader-crop-ctrl i {
+  position: absolute;
+  left: 1px;
+  top: 2px;
+}
+.elf-uploader-crop-ctrl-left {
+  left: 0;
+}
+.elf-uploader-crop-ctrl-right {
+  right: 0;
+}
+.elf-uploader-crop-ctrl-top {
+  bottom: auto;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  z-index: 4;
+  font-size: 15px;
+}
+.elf-uploader-crop-ctrl-top i {
+  left: 3px;
+}
+.elf-uploader-crop-ctrl-remove {
+  right: 4px;
+  color: #800;
+}
+.elf-uploader-crop-ctrl-edit {
+  right: 30px;
+  color: #000;
+}
+.elf-uploader-crop-ctrl-moveright {
+  left: 20px;
+}
+.elf-uploader-status {
+  position: absolute;
+  width: 90%;
+  color: #000;
+  top: 5%;
+  text-align: center;
+  z-index: 20;
+  padding: 20% 5% 5%;
+  font-size: 12px;
+  line-height: 19px;
+  display: none;
+  z-index: 2;
+  background-color: #ddd;
+}
+.elf-uploader-info {
+  position: absolute;
+  width: 90%;
+  color: #000;
+  top: 5%;
+  text-align: center;
+  background: transparent url("/img/elf_uploader/640x400bg-mini.png") center center no-repeat;
+  z-index: 2;
+  opacity: 0.8;
+  padding: 5%;
+  font-size: 12px;
+  line-height: 19px;
+}
+.elf-uploader-btns {
+  padding: 3px 10px;
+  display: inline-block;
+  background-color: #aaa;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.elf-uploader-editbtn {
+  background-color: #00adff;
+  color: #fff;
+  font-size: 12px;
+  padding: 5px 0;
+  width: 80%;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  display: none;
+  position: absolute;
+  bottom: 5%;
+  left: 10%;
+  z-index: 4;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.elf-uploader-editbtn:hover {
+  opacity: 1;
+  background-color: #008ddf;
+}
+.elf-uploader-progress-icon {
+  position: absolute;
+  display: block;
+  top: 5%;
+  font-size: 15px;
+  left: calc(50% - 8px);
+}
+.elf-uploader-progress-bar {
+  position: relative;
+  width: 90%;
+  padding: 3px;
+  border: 1px solid #800;
+}
+.elf-uploader-progress-line {
+  position: relative;
+  width: 0;
+  height: 5px;
+  background-color: #800;
+}
+.elf-uploader-progress-total {
+  color: #800;
+}
+.elf-uploader-paster {
+  position: absolute;
+  width: 100%;
+  color: #000;
+  padding: 15% 5% 5%;
+  text-align: center;
+  display: none;
+  z-index: 21;
+  background-color: #fdfdfd;
+}
+.elf-uploader-paster-ctrl {
+  margin: 10px;
+}
+.elf-cropwnd {
+  position: fixed;
+  width: 96%;
+  height: 96%;
+  left: 2%;
+  top: 2%;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 1000;
+}
+.elf-cropwnd-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  color: #800;
+  z-index: 100;
+  width: 33px;
+  height: 35px;
+  background-color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+/*
+===============================================
+=========== Simple Uploader ===================
+===============================================
+*/
+.elf-simpleuploader-container {
+  position: relative;
+}
+.elf-simpleuploader-container input[type=button] {
+  width: auto;
+}
+.elf-simpleuploader-info {
+  display: none;
+  color: #000;
+}
+.elf-simpleuploader-info a {
+  color: #000;
+}

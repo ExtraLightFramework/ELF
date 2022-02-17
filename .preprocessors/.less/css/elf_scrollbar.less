@@ -1,0 +1,68 @@
+@import '../global-mixins.less';
+
+
+.elf-scrollbar-cont {
+	margin-top: 0;
+	z-index: 1;
+	padding: 5px 0;
+	&-vertical {
+//		width: inherit;
+		position: relative;
+	}
+	&-horizontal {
+		height: inherit;
+		position: absolute;
+	}
+}
+
+
+.elf-scrollbar {
+	@scroll-bar-width: 8px;
+	@cursor-width: 8px;
+	@cursor-height: 16px;
+	@color-bg: #cacaca;
+	@color: #000;
+	@cursor-color: @color + #777;
+	@cursor-color-hover: @color + #444;
+	@border-width: 0px;
+	
+	
+	position: absolute;
+	z-index: 2;
+	&-vertical {
+		width: @scroll-bar-width;
+	}
+	&-horizontal {
+		height: @scroll-bar-width;
+	}
+	.border-decors(@border-width, solid, @color, @scroll-bar-width / 1.5);
+	opacity: .8;
+	transition: opacity .5s;
+	cursor: pointer;
+	background-color: @color-bg;
+	overflow: hidden;
+	
+	&:hover {
+		opacity: 1;
+	}
+	
+	&-cursor {
+		position: absolute;
+		&-vertical {
+			width: @cursor-width;
+			height: @cursor-height;
+		}
+		&-horizontal {
+			height: @cursor-width;
+			width: @cursor-height;
+		}
+		border-radius: @cursor-width;
+		top: 0;
+		left: 0;
+		background-color: @cursor-color;
+		
+		&:hover {
+			background-color: @cursor-color-hover;
+		}
+	}
+}

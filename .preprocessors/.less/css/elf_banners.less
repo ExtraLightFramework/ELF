@@ -1,0 +1,191 @@
+@import '../global-mixins.less';
+
+@elf-banner-height: 600px;
+
+.elf-banners-container {
+	width: 100%;
+	height: @elf-banner-height;
+	overflow: hidden;
+	position: relative;
+//	left: 0;
+//	top: 108px;
+	z-index: 1;
+	
+	.elf-banners-item {
+		position: absolute;
+		background-color: #fff;//@app-lnk-color + #eee;
+		left: 0;
+		top: 0;
+		height: @elf-banner-height;
+		text-align: center;
+		@media @l-res {
+			img {
+				width: auto;
+				height: @elf-banner-height;
+			}
+		}
+		@media @m-res {
+			img {
+				width: auto;
+				height: @elf-banner-height;
+			}
+		}
+		@media @s-res {
+			img {
+				width: auto;
+				height: 310px;
+			}
+		}
+		
+		.fc-banner {
+			&-text {
+				position: absolute;
+				border: 1px solid #efefef;
+				@media @l-res, @m-res {
+					padding: 35px 50px;
+				}
+				@media @s-res {
+					padding: 10px;
+				}
+				display: block;
+				background-color: #fff;
+				color: @app-color;
+				width: 650px;
+				top: 310px;
+				@media @l-res {
+					left: calc(50% - 644px);
+				}
+				@media @m-res {
+					width: 86%;
+					left: 7%;
+				}
+				@media @s-res {
+					top: 310px;
+					width: 100%;
+					left: 0;
+				}
+				text-decoration: none;
+				text-align: left;
+			}
+			&-tlt {
+				@media @l-res, @m-res {
+					font-size: 1.8em;
+				}
+				@media @s-res {
+					font-size: 1.2em;
+				}
+				font-family: Montserrat-ExtraBold;
+				&:after {
+					content: url('/img/banner-tlt-arr.png');
+					margin-left: 10px;
+				}
+			}
+			&-author {
+				font-family: 'Georgia-Italic';
+				font-size: 1.2em;
+				text-align: right;
+				@media @l-res, @m-res {
+					margin-top: 15px;
+				}
+				@media @s-res {
+					margin-top: 10px;
+					font-size: 1em;
+				}
+			}
+		}
+	}
+	
+	.elf-banners-minidots-cont {
+		position: absolute;
+		@media @l-res, @m-res {
+			bottom: 10%;
+		}
+		@media @s-res {
+			bottom: auto;
+			top: 290px;
+		}
+		width: 100%;
+		z-index: 10;
+		display: flex;
+		justify-content: center;
+		
+		@mini-dot-color: #800;
+		@mini-dot-size: 8px;
+		.elf-banners-minidot {
+			width: @mini-dot-size;
+			height: @mini-dot-size;
+			position: relative;
+			margin: 0 10px;
+			border: 1px solid @mini-dot-color;
+			background-color: #fff;
+			border-radius: 50%;
+			cursor: pointer;
+			display: inline-block;
+			&-selected {
+				background-color: @mini-dot-color;
+			}
+		}
+	}
+	.elf-banners-navigate {
+		
+		@navigate-margin: calc(50% - 750px);
+		@navigate-size: 40px;
+		@navigate-border-size: 0;
+		@navigate-color: #fff;
+		@navigate-bg-color: @app-color;
+		
+		position: absolute;
+		width: @navigate-size;
+		height: @navigate-size;
+		border: @navigate-border-size solid #000;
+		color: @navigate-color;
+		background-color: @navigate-bg-color;
+		border-radius: 3px;
+		@media @l-res, @m-res {
+			top: ~'calc(50% -'(@navigate-size/2 + @navigate-border-size)~')';
+		}
+		@media @s-res {
+			top: 140px;
+		}
+		opacity: .8;
+		transition: opacity .3s;
+		z-index: 20;
+		cursor: pointer;
+		text-align: center;
+		
+		&:hover {
+			opacity: 1;
+		}
+		i {
+			position: absolute;
+			font-size: (@navigate-size - @navigate-size/3);
+			top: 7px;
+			display: block;
+		}
+		&-next {
+			i {
+				left: 12px;
+			}
+		}
+		&-prev {
+			i {
+				left: 10px;
+			}
+		}
+		&-next {
+			right: 3%;
+		}
+		&-prev {
+			left: 3%;
+		}
+		@media @add1-res {
+			&-next {
+				right: @navigate-margin;
+			}
+			&-prev {
+				left: @navigate-margin;
+			}
+		}
+	}
+}
+

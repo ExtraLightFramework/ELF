@@ -1,0 +1,113 @@
+<?php
+
+$lang['title'] 		= "ELF - Extra Light Framework";
+$lang['description']= "ELF is perfect framework for your web application. Easy install and more easy use.";
+$lang['keywords']	= "elf, extra light framework, php framework, php cms";
+$lang['orgname']	= "ExtraLightFramework";
+$lang['main']		= "ELF";
+
+//GROUPS
+$lang['group.user']		= "Пользователь";
+$lang['group.admin']	= "Администратор";
+$lang['group.tech']		= "Тех.персонал";
+
+//Common messages
+$lang['closeunsave']		= "закрыть без сохранения";
+$lang['rmonth_01']			= "января";
+$lang['rmonth_02']			= "февраля";
+$lang['rmonth_03']			= "марта";
+$lang['rmonth_04']			= "апреля";
+$lang['rmonth_05']			= "мая";
+$lang['rmonth_06']			= "июня";
+$lang['rmonth_07']			= "июля";
+$lang['rmonth_08']			= "августа";
+$lang['rmonth_09']			= "сентября";
+$lang['rmonth_10']			= "октября";
+$lang['rmonth_11']			= "ноября";
+$lang['rmonth_12']			= "декабря";
+
+$lang['month_01']			= "Январь";
+$lang['month_02']			= "Февраль";
+$lang['month_03']			= "Март";
+$lang['month_04']			= "Апрель";
+$lang['month_05']			= "Май";
+$lang['month_06']			= "Июнь";
+$lang['month_07']			= "Июль";
+$lang['month_08']			= "Август";
+$lang['month_09']			= "Сентябрь";
+$lang['month_10']			= "Октябрь";
+$lang['month_11']			= "Ноябрь";
+$lang['month_12']			= "Декабрь";
+$lang['month_1']			= "Январь";
+$lang['month_2']			= "Февраль";
+$lang['month_3']			= "Март";
+$lang['month_4']			= "Апрель";
+$lang['month_5']			= "Май";
+$lang['month_6']			= "Июнь";
+$lang['month_7']			= "Июль";
+$lang['month_8']			= "Август";
+$lang['month_9']			= "Сентябрь";
+
+$lang['day.week.short.0']	= "Вс.";
+$lang['day.week.short.1']	= "Пн.";
+$lang['day.week.short.2']	= "Вт.";
+$lang['day.week.short.3']	= "Ср.";
+$lang['day.week.short.4']	= "Чт.";
+$lang['day.week.short.5']	= "Пт.";
+$lang['day.week.short.6']	= "Сб.";
+
+$lang['ddmmyyyy']			= "дд.мм.гггг";
+
+$lang['newrec']				= "Новая запись";
+$lang['datanotfound']		= "Данные не найдены";
+$lang['save']				= "Сохранить";
+$lang['reform']				= "Сформировать";
+$lang['cancel']				= "Отмена";
+$lang['search']				= "Найти";
+$lang['remove']				= "Удалить";
+$lang['add']				= "Добавить";
+$lang['exit']				= "Выход";
+$lang['enter']				= "Вход";
+$lang['onward']				= "Далее";
+$lang['back']				= "Назад";
+$lang['gotosite']			= "На сайт";
+$lang['gotomain']			= "На главную";
+$lang['edt']				= "ред.";
+$lang['del']				= "удл.";
+$lang['unexp']				= "неогр.";
+$lang['showall']			= "показать полностью";
+
+$lang['yes']				= "Да";
+$lang['no']					= "Нет";
+
+$lang['short.hours']		= "час.";
+$lang['short.minutes']		= "мин.";
+$lang['short.seconds']		= "сек.";
+
+$lang['from']				= "от";
+$lang['on']					= "на";
+$lang['about']				= "о";
+
+$lang['gotosite.tlt']		= "перейти на сайт";
+$lang['sysexit.tlt']		= "выйти из системы";
+
+$lang['name']				= "Имя";
+$lang['value']				= "Значение";
+$lang['desc']				= "Описание";
+$lang['root']				= "Корень";
+
+$lang['error']				= "Ошибка";
+$lang['error.auth']			= "Ошибка авторизации. Указанная пара логин/пароль не найдена в системе.";
+$lang['error.unauth']		= "Неавторизованный доступ. Авторизируйтесь в системе.";
+$lang['access.denied']		= "Недостаточно прав для выполнения операции";
+
+$lang['systemdialog']		= "Системный диалог";
+$lang['pagenotfound']		= "Страница не найдена";
+$lang['pagemoved']			= "Страница временно перемещена";
+$lang['selectvaluefromlist']= "выберите значение из списка";
+$lang['requiredfield']		= "поле обязательно для заполнения";
+$lang['openinblank']		= "ссылка откроется в новой вкладке";
+
+$lang['unsubscribe.alert']	= "Адрес <b>%%1%%</b> удален из списка рассылки сайта ".SITE."<br /><a href='{site_url}'>На главную ".SITE."</a>";
+$lang['unsubscribe.tlt']	= "Управление подписками";
+

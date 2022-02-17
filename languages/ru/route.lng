@@ -1,0 +1,22 @@
+<?php
+
+$lang['save'] 				=	"Правило успешно сохранено";
+$lang['unsave'] 			=	"Ошибка при сохранении правила, возможно пара Контроллер-Метод (%%1%%/%%2%%) уже существует";
+$lang['sitemap.success'] 	= "Файл SITEMAP.XML успешно сформирован";
+$lang['controller.source']	= "Контроллер (источник)";
+$lang['method.source'] 		= "Метод (источник)";
+$lang['controller.acceptor']="Контроллер (приемник)";
+$lang['method.acceptor']	= "Метод (приемник)";
+$lang['getparams']			= "GET параметры";
+$lang['lastroute']			= "Окончательное правило";
+$lang['canonicalink']		= "Каноническая ссылка";
+
+$lang['title']			= "Системный роутинг";
+$lang['donotanything']	= "Если не знаете что здесь делать, покиньте эту страницу!!!";
+$lang['newrule']		= "Новое правило";
+$lang['sitemapgen']		= "Генерация SITEMAP.XML";
+$lang['sitemapcreate']	= "сформировать файл sitemap.xml";
+$lang['controller']		= "Контроллер";
+$lang['method']			= "Метод";
+$lang['ruleseditor']	= "Редактирование правила роутинга";
+$lang['frequncy']		= "Частота";

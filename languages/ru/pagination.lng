@@ -1,0 +1,8 @@
+<?php
+
+$lang['showmore']	= "Показать еще";
+$lang['forward']	= "вперёд";
+$lang['reward']		= "назад";
+$lang['tobegin']	= "в начало";
+$lang['toend']		= "в конец";
+$lang['topage']		= "на страницу";

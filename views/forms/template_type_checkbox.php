@@ -1,0 +1,2 @@
+<input type="checkbox" onclick="_save_field_data($(this).prop('checked')?1:0, 'default_value', <% field_id %>)" 
+	title="<% lang:forms:field.default.value.tlt %>" name="default_value" class="nowide" <?=Elf::get_data('default_value')?'checked="checked"':''?> />

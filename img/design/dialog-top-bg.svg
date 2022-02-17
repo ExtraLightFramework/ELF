@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="50" width="197" viewBox="0 0 197 50">
+    <path 
+		fill="#a0e116"
+		stroke="#a0e116"
+		stroke-width="1"
+		d="M0,25q12.5,-12.5 25,0q12.5,12.5 25,0q4,-3 12,0q6,4 15,0q12,-18 36,0q4,3 12,0q8,-3 12,0q18,6 24,0q12,-8 24,0q6,4 12,0v-25H0v25" />
+</svg>
