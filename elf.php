@@ -569,19 +569,20 @@ class Elf {
 		$green = imagecolorallocate($img, 63, 166, 150);
 		$darkgreen = imagecolorallocate($img, 14, 63, 56);
 		$red = imagecolorallocate($img, 255, 0, 0);
+		$blue = imagecolorallocate($img, 0, 115, 187);//0073bb
 		
-		imagefilledrectangle($img, 0, 0, $width, $height, $gray);
+		imagefilledrectangle($img, 0, 0, $width, $height, $blue);
 	//	imagerectangle($img, 0, 0, $width-1, $height-1, $darkgreen);
 		
-		imagettftext($img, 24, 0, 10, 25, $red, ROOTPATH.'img/fonts/opensans.ttf', $rndint);
+		imagettftext($img, 24, 0, 10, 25, $white, ROOTPATH.'fonts/Robotobold.ttf', $rndint);
 		
-		for ($i=1; $i<=36; $i++) {
+		for ($i=1; $i<=120; $i++) {
 				$int1=rand(5,$width-4);
 				$int2=rand(0,$height);
 				imagesetpixel($img, $int1, $int2, $black);
 				$int3=rand(0,15);
 				$int4=rand(0,15);
-				imageline($img, $int1, $int2, $int1+$int3, $int2+$int4, $red);
+				imageline($img, $int1, $int2, $int1+$int3, $int2+$int4, $white);
 		}
 		
 		$str = '';

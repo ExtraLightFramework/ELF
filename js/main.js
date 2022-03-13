@@ -169,7 +169,7 @@ function _hideTooltip() {
 }
 function showBaloon(t) {
 	var _bid = 'baloon-'+parseInt(Math.random()*1000000);
-	$("body").append('<div class="system-baloon" id="'+_bid+'">'+t+'<div class="close-baloon" onclick="hideBaloon(\''+_bid+'\')"><i class="far fa-times-circle"></i></div></div>');
+	$("body").append('<div class="system-baloon" id="'+_bid+'">'+t.replace(/\n/g,'<br /><br />')+'<div class="close-baloon" onclick="hideBaloon(\''+_bid+'\')"><i class="far fa-times-circle"></i></div></div>');
 	var _h = $("#"+_bid).height()+35;//+$(window).scrollTop();
 	$("div.system-baloon").each(function() {
 		if ($(this).attr('id')==_bid)
@@ -214,6 +214,14 @@ function translit(str, delim) {
 		}
 	}
     return ret;
+}
+function reloadCaptcha(name, len) {
+	$.post('/elf/reload_captcha',{name:typeof name==='undefined'?'captcha':name,
+									len:typeof len==='undefined'?4:parseInt(len)},
+		function(data) {
+			$('#'+(typeof name==='undefined'?'captcha':name)).attr('src', data);
+		}
+	);
 }
 
 $(function() {
@@ -347,13 +355,14 @@ $(function() {
 		e.preventDefault();
 		let arr = frm.serializeArray(), params = {};
 		$.each(arr, function (idx, el) {
-			if (typeof el.value != 'undefined') {
-				params[el.name] && params[el.name].push? params[el.name].push(el.value) : (params[el.name] = el.value);
-			}
+			if (typeof el.value == 'undefined')
+				el.value = null;
+			params[el.name] && params[el.name].push? params[el.name].push(el.value) : (params[el.name] = el.value);
 		});
 		showWW();
 		if (frm.attr('action')) {
 			let _aerr = setTimeout(() => {hideWW();alert("Can't execute action [function: main.js/form.ajax-request.submit, action: "+frm.attr('action')+"]")}, 30000);
+			console.log(params);
 			$.post(frm.attr('action'), params, function(data) {
 				hideWW();
 				clearTimeout(_aerr);
@@ -361,6 +370,11 @@ $(function() {
 					alert(data);
 				else if (data && data.error) {
 					showBaloon(data.error);
+					console.log(data.error);
+				}
+				else if (data && data.exception) {
+					showBaloon(data.exception);
+					console.log(data.exception);
 				}
 				else {
 					if (frm.attr('data-callback')) {
@@ -368,10 +382,14 @@ $(function() {
 						for (let i = 0; i < funcs.length; i ++) {
 							if (window[funcs[i]])
 								window[funcs[i]](data);
+							else {
+								showBaloon('Function '+funcs[i]+' not found!');
+								console.log('Function '+funcs[i]+' not found!');
+							}
 						}
 					}
-					else if (frm.attr('data-callback'))
-						alert('Function '+frm.attr('data-callback')+' not found!');
+//					else if (frm.attr('data-callback'))
+//						alert('Function '+frm.attr('data-callback')+' not found!');
 					if (frm.attr('data-close-form-id'))
 						hideDialog(frm.attr('data-close-form-id'));
 					else if (frm.closest('.slider-frm').length) {
