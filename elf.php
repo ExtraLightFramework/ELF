@@ -2,9 +2,9 @@
 
 require_once ("_ini.php");
 
-// ==== !!!!!!!
+// ==== !!!!!!
 Elf::init();
-// ==== !!!!!!!
+// ==== !!!!!!
 
 class Elf {
 	static private $views_path;
