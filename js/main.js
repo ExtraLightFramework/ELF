@@ -377,6 +377,9 @@ $(function() {
 					console.log(data.exception);
 				}
 				else {
+					if (data && data.message) {
+						showBaloon(data.message);
+					}
 					if (frm.attr('data-callback')) {
 						let funcs = frm.attr('data-callback').split(';');
 						for (let i = 0; i < funcs.length; i ++) {

@@ -1,5 +1,5 @@
 <h2 class="adm-tlt"><% lang:forms:title %></h2>
-<a href="javascript:;" data-params="dialog=forms/edit;fid=0;offset=<% offset %>;caption=<% lang:forms:newform %>" onclick="showDialog(this)"><% lang:forms:newform %></a>
+<a href="javascript:;" data-params="dialog=forms/edit;appearance=appearances/wide;fid=0;offset=<% offset %>;caption=<% lang:forms:newform %>" onclick="showDialog(this)"><% lang:forms:newform %></a>
 <br /><br />
 <?=Elf::$_data['data'][1]?Elf::$_data['data'][1]:''?>
 <?php if (!empty(Elf::$_data['data'][0])):?>

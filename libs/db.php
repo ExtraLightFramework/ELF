@@ -549,4 +549,57 @@ class Db {
 		}
 		return !empty($data)?array($data,$shash):array(null,null);
 	}
+	/****************************************************
+	STRUCTURE $fields array
+	$fields = [
+		'field1' => [
+						'name'			=> name field (req),
+						'required'		=> true | false (def),
+						'regexp'		=> regvalue | null (def),
+						'regexp_alert'	=> alert message | null (def),
+						'unique'		=> `field name in table DB` | false (def),
+						'equal'			=> value | null {def},
+						'equal_name'	=> equal field name
+					],
+		'field2' => [
+						...
+					],
+		...
+	]
+	Some RegExp:
+	email - ^([a-zA-Z0-9_]|\-|\.)+@(([a-z0-9]|\-)+\.)+[a-z]{2,6}$
+	phone - ^\+((\d{1,2})[\- ]?)?(\(?\d{2,4}\)?[\- ]?)?[\d\- ]{7,10}$
+	password - ^[a-zA-Z0-9_]{6,12}$
+	****************************************************/
+	protected function chk_req_fields($fields = []) {
+		$ret = true;
+		if ($fields) {
+			$data = Elf::input()->data();
+			Elf::$_data['error'] = '';
+			foreach ($fields as $k=>$v) {
+				if (!empty($v['required'])
+					&& (!isset($data[$k]) || empty($data[$k]))) {
+					Elf::$_data['error'] .= Elf::lang()->item('error.field.is.empty',$v['name'])."\n";
+					$ret = false;
+				}
+				elseif (!empty($v['regexp'])
+					&& (!isset($data[$k]) || !preg_match("/".$v['regexp']."/", $data[$k]))) {
+					Elf::$_data['error'] .= (!empty($v['regexp_alert'])?$v['regexp_alert']:Elf::lang()->item('error.field.regexp',$v['name']))."\n";
+					$ret = false;
+				}
+				elseif (!empty($v['unique'])
+					&& !empty($data[$k])
+					&& $this->get("`{$v['unique']}`='{$data[$k]}'")) {
+					Elf::$_data['error'] .= Elf::lang()->item('error.field.unique',$v['name'])."\n";
+					$ret = false;
+				}
+				elseif (isset($v['equal']) && ($v['equal'] !== null)
+					&& isset($data[$k]) && ($v['equal'] != $data[$k])) {
+					Elf::$_data['error'] .= Elf::lang()->item('error.field.equal',$v['name'],isset($v['equal_name'])?$v['equal_name']:'undefined')."\n";
+					$ret = false;
+				}
+			}
+		}
+		return $ret;
+	}
 }
