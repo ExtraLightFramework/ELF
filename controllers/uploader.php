@@ -9,6 +9,8 @@ class Uploader {
 	protected $model;
 	
 	function __construct() {
+		if (Elf::input()->get('params'))
+			Elf::input()->set('params',Elf::json_decode_to_array(Elf::input()->get('params')));
 		if (!Elf::input()->get('model')||(Elf::input()->get('model')=='uploaders'))
 			$this->model = new \Elf\Libs\Uploaders;
 		else {
@@ -111,7 +113,7 @@ class Uploader {
 //		unset($tmp);
 		// ==========
 		$this->model->image_formalize($fname);
-		$this->model->save_to_db($fname,Elf::json_decode_to_array(Elf::input()->get('params')));
+		$this->model->save_to_db($fname,Elf::input()->get('params'));
 		
 		if (get_class($this) == __CLASS__)
 			echo json_encode(['ok'=>1,'name'=>$fname,
@@ -121,7 +123,7 @@ class Uploader {
 								'img_h'=>$this->model->h,
 								'icon_w'=>$this->model->icon_w,
 								'icon_h'=>$this->model->icon_h,
-								'params'=>Elf::json_decode_to_array(Elf::input()->get('params'))]);
+								'params'=>Elf::input()->get('params')]);
 		else
 			return json_encode(['ok'=>1,'name'=>$fname,
 								'src'=>DIR_ALIAS.'/'.$this->model->path.$fname,

@@ -357,13 +357,23 @@ $(function() {
 		e.preventDefault();
 		let arr = frm.serializeArray(), params = {};
 		$.each(arr, function (idx, el) {
+			let n = el.name.replace(/\[\]/g, '');
 			if (typeof el.value == 'undefined')
 				el.value = null;
-			params[el.name] && params[el.name].push? params[el.name].push(el.value) : (params[el.name] = el.value);
+			if (params[n]) {
+				if (!Array.isArray(params[n])) {
+					let v = params[n];
+					params[n] = [];
+					params[n].push(v);
+				}
+				params[n].push(el.value);
+			}
+			else
+				params[n] = el.value;
 		});
 		showWW();
 		if (frm.attr('action')) {
-			let _aerr = setTimeout(() => {hideWW();alert("Can't execute action [function: main.js/form.ajax-request.submit, action: "+frm.attr('action')+"]")}, 30000);
+			let _aerr = setTimeout(() => {hideWW();alert("Can't execute action [function: main.js/form.ajax-request.submit, action: "+frm.attr('action')+"]")}, 5000);
 			console.log(params);
 			$.post(frm.attr('action'), params, function(data) {
 				hideWW();
