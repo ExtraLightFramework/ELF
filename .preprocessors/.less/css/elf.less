@@ -135,13 +135,58 @@ table {
 		vertical-align:top;
 	}
 }
-
+/* ===== 404 ==== */
+.elf-page-not-found {
+	position: relative;
+	width: 50%;
+	@media @m-res,@s-res {
+		width: 96%;
+	}
+	margin: 2em auto;
+	padding: 1em 2em 3em;
+	border: 1px solid #eee;
+	border-radius: 25px;
+	h1 {
+		position: relative;
+		z-index: 10;
+	}
+	&-404 {
+		font-size: 12em;
+		font-weight: bold;
+		color: #ddd;
+		position: absolute;
+		top: 1rem;
+		left: 2.5rem;
+		z-index: 0;
+	}
+	&-page-url {
+		position: absolute;
+		font-size: 3em;
+		font-weight: bold;
+		left: 8rem;
+		top: 10rem;
+		z-index: 1;
+	}
+	&-main-url {
+		position: relative;
+		padding-top: 10rem;
+		text-align: center;
+	}
+}
 /* ===== DIALOG WINDOW STYLES ====== */
 div.dialog {
 	display:block;
 	position:absolute;
 	width:60%;
 	left:20%;
+	@media @m-res {
+		width: 96%;
+		left: 2%;
+	}
+	@media @s-res {
+		width: 98%;
+		left: 1%;
+	}
 	text-align:left;
 	z-index:200;
 	color:#fff;
@@ -324,10 +369,22 @@ div.system-baloon {
 	left:50%;
 	margin-left:-90px;
 	width:150px;
+	font-size:11px;
+	@media @m-res {
+		margin-left:-150px;
+		width:300px;
+		font-size: 14px;
+	}
+	@media @s-res {
+		margin-left:0;
+		width:90%;
+		left: 5%;
+		font-size: 18px;
+	}
 	padding:15px;
 	background:#ffbdf5;
 	color:#000;
-	font-size:11px;
+
 	border-radius:10px;
 	z-index:300;
 	word-break: break-all;

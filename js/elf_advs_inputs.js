@@ -90,6 +90,7 @@ ELF_CleverSelector.prototype = {
 		if (clear)
 			$('#'+this.id).find('div.select-clever-options').html('');
 		showWW();
+		console.log(this.getter);
 		$.post(this.getter, {data:true,offset:this.offset}, function(data) {
 			hideWW();
 			if (data.exception)

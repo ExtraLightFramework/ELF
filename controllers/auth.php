@@ -48,7 +48,7 @@ class Auth extends \Elf\Controllers\Main {
 			if ($user->auth(Elf::input()->get('login'),Elf::input()->get('passwd'))) {
 				if (($group === null) || (Elf::session()->get('group')&$group)) {
 					if ($after_auth_redirect)
-						Elf::redirect($after_auth_redirect===true?'':$after_auth_redirect);
+						Elf::redirect($after_auth_redirect===true?'':base64_decode($after_auth_redirect));
 					else
 						$this->index();
 					return;

@@ -260,6 +260,8 @@ $(function() {
 	}).on("mouseleave","div.system-baloon",function() {
 		let _bid = $(this).attr('id');
 		_hideBaloon = setTimeout(function(){hideBaloon(_bid)},2000);
+	}).on("click","div.system-baloon", function() {
+		hideBaloon($(this).attr('id'));
 	});
 	$('label.elf-radio').each(function() {
 		$(this).append('span');

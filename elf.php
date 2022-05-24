@@ -558,7 +558,7 @@ class Elf {
 		else
 			$rndint = self::session()->get($name);		
 		$height=30; 
-		$width=100;  
+		$width=70;  
 		$img = imagecreate($width, $height);
 		
 		$black = imagecolorallocate($img, 0, 0, 0);
@@ -571,12 +571,12 @@ class Elf {
 		$red = imagecolorallocate($img, 255, 0, 0);
 		$blue = imagecolorallocate($img, 0, 115, 187);//0073bb
 		
-		imagefilledrectangle($img, 0, 0, $width, $height, $blue);
+		imagefilledrectangle($img, 0, 0, $width, $height, $white);
 	//	imagerectangle($img, 0, 0, $width-1, $height-1, $darkgreen);
 		
-		imagettftext($img, 24, 0, 10, 25, $white, ROOTPATH.'fonts/Robotobold.ttf', $rndint);
+		imagettftext($img, 24, 0, 10, 25, $black, ROOTPATH.'fonts/OpenGostTypeA.ttf', $rndint);
 		
-		for ($i=1; $i<=120; $i++) {
+		for ($i=1; $i<=70; $i++) {
 				$int1=rand(5,$width-4);
 				$int2=rand(0,$height);
 				imagesetpixel($img, $int1, $int2, $black);
@@ -680,7 +680,7 @@ class Elf {
 		}
 		return true;
 	}
-	static public function curl_request($url, $dt = null, $method = "POST", $cookie = '', $headers = '') {
+	static public function curl_request($url, $dt = null, $method = "POST", $cookie = '', $headers = null) {
 		if (!function_exists('curl_init'))
 			throw new \Exception('CURL module not installed');
 		$ch = curl_init();

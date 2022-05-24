@@ -7,7 +7,7 @@ body {
   padding: 0;
   margin: 0;
 }
-@media (min-width: 1290px) {
+@media (min-width: 1024px) {
   body {
     min-height: 800px;
   }
@@ -15,7 +15,7 @@ body {
     display: none !important;
   }
 }
-@media (max-width:  1289px ) and (min-width: 768px) {
+@media (max-width:  1023px ) and (min-width: 768px) {
   body .hide-in-m {
     display: none !important;
   }
@@ -32,7 +32,7 @@ textarea,
 a {
   font-family: Tahoma, Arial, Verdana;
 }
-@media (min-width: 1290px) {
+@media (min-width: 1024px) {
   body,
   input,
   select,
@@ -41,7 +41,7 @@ a {
     font-size: 15px;
   }
 }
-@media (max-width:  1289px ) and (min-width: 768px) {
+@media (max-width:  1023px ) and (min-width: 768px) {
   body,
   input,
   select,
@@ -110,7 +110,7 @@ a:hover {
   font-size: 1.5rem;
   z-index: 99;
 }
-@media (max-width:  767px ), (max-width:  1289px ) and (min-width: 768px) {
+@media (max-width:  767px ), (max-width:  1023px ) and (min-width: 768px) {
   .cookie-agreement {
     font-size: 0.75rem;
     padding: 1.5em;
@@ -123,7 +123,7 @@ a:hover {
   font-size: 1.5rem;
   color: #fff;
 }
-@media (max-width:  767px ), (max-width:  1289px ) and (min-width: 768px) {
+@media (max-width:  767px ), (max-width:  1023px ) and (min-width: 768px) {
   .cookie-agreement a {
     font-size: 0.75rem;
   }
@@ -181,6 +181,46 @@ table td,
 table th {
   vertical-align: top;
 }
+/* ===== 404 ==== */
+.elf-page-not-found {
+  position: relative;
+  width: 50%;
+  margin: 2em auto;
+  padding: 1em 2em 3em;
+  border: 1px solid #eee;
+  border-radius: 25px;
+}
+@media (max-width:  1023px ) and (min-width: 768px), (max-width:  767px ) {
+  .elf-page-not-found {
+    width: 96%;
+  }
+}
+.elf-page-not-found h1 {
+  position: relative;
+  z-index: 10;
+}
+.elf-page-not-found-404 {
+  font-size: 12em;
+  font-weight: bold;
+  color: #ddd;
+  position: absolute;
+  top: 1rem;
+  left: 2.5rem;
+  z-index: 0;
+}
+.elf-page-not-found-page-url {
+  position: absolute;
+  font-size: 3em;
+  font-weight: bold;
+  left: 8rem;
+  top: 10rem;
+  z-index: 1;
+}
+.elf-page-not-found-main-url {
+  position: relative;
+  padding-top: 10rem;
+  text-align: center;
+}
 /* ===== DIALOG WINDOW STYLES ====== */
 div.dialog {
   display: block;
@@ -195,6 +235,18 @@ div.dialog {
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
+}
+@media (max-width:  1023px ) and (min-width: 768px) {
+  div.dialog {
+    width: 96%;
+    left: 2%;
+  }
+}
+@media (max-width:  767px ) {
+  div.dialog {
+    width: 98%;
+    left: 1%;
+  }
 }
 div.dialog div.top {
   background: #141414;
@@ -391,13 +443,28 @@ div.system-baloon {
   left: 50%;
   margin-left: -90px;
   width: 150px;
+  font-size: 11px;
   padding: 15px;
   background: #ffbdf5;
   color: #000;
-  font-size: 11px;
   border-radius: 10px;
   z-index: 300;
   word-break: break-all;
+}
+@media (max-width:  1023px ) and (min-width: 768px) {
+  div.system-baloon {
+    margin-left: -150px;
+    width: 300px;
+    font-size: 14px;
+  }
+}
+@media (max-width:  767px ) {
+  div.system-baloon {
+    margin-left: 0;
+    width: 90%;
+    left: 5%;
+    font-size: 18px;
+  }
 }
 div.system-baloon div.close-baloon {
   position: absolute;
@@ -879,13 +946,13 @@ div.slider-frm form {
   z-index: 200;
   color: #000;
 }
-@media (min-width: 1290px) {
+@media (min-width: 1024px) {
   .auth-dialog {
     width: 600px;
     left: calc(50% - 300px);
   }
 }
-@media (max-width:  1289px ) and (min-width: 768px) {
+@media (max-width:  1023px ) and (min-width: 768px) {
   .auth-dialog {
     width: 50%;
     left: 25%;
@@ -989,13 +1056,13 @@ div.slider-frm form {
 .wide-dialog {
   margin-bottom: 30px;
 }
-@media (min-width: 1290px) {
+@media (min-width: 1024px) {
   .wide-dialog {
     width: 90%;
     left: 5%;
   }
 }
-@media (max-width: 1289px) {
+@media (max-width: 1023px) {
   .wide-dialog {
     width: 96%;
     left: 2%;
