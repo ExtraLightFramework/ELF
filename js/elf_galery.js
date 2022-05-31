@@ -9,7 +9,10 @@ class ELF_Galery { // ELF Galery v 2.0
 		//		params.cnt - количество изображений отображаемых в контейнере
 		//		params.pad_y, params.pad_x - отступы от границ контейнера (pad_y) и друг от друга (pad_x)
 		//		params.class - дополнительное имя класса для контейнера
+		//		params.imgs - JSON-массив объектов изображение (см. параметр request)
 		try {
+			if (!request && !params.imgs)
+				throw new Error('Parameter REQUEST or PARAMS.IMGS are empty');
 			this.root = document.getElementById(cont);
 			this.root.classList.add('elf-galery-container');
 			this.root_imgs = document.createElement('div');
@@ -48,13 +51,17 @@ class ELF_Galery { // ELF Galery v 2.0
 			else
 				this.SHIFT = 0;
 			
-			this.xhr = ELF_Galery.getXhrObject();
-			this.xhr.addEventListener('readystatechange', () => this.xhrStateChange());
-			this.xhr.addEventListener('load', () => this.xhrResponse());
-			
-			this.xhrCallback = this.init;
-			this.xhr.open('POST', request, true);
-			this.xhr.send();
+			if (request) {
+				this.xhr = ELF_Galery.getXhrObject();
+				this.xhr.addEventListener('readystatechange', () => this.xhrStateChange());
+				this.xhr.addEventListener('load', () => this.xhrResponse());
+				
+				this.xhrCallback = this.init;
+				this.xhr.open('POST', request, true);
+				this.xhr.send();
+			}
+			else
+				this.init(this, params.imgs);
 		}
 		catch(err) {
 			alert('ELF_Galery load error: '+err.message+' Stack: '+err.stack);
@@ -75,11 +82,11 @@ class ELF_Galery { // ELF Galery v 2.0
 				
 //				img.style.position = 'absolute';
 				img.style.left = obj.PAD_X+'px';
-				img.style.top = obj.PAD_Y+'px';
+//				img.style.top = obj.PAD_Y+'px';
 				obj.obj[obj.cnt].append(img);
 
 				img.style.width = (parseInt(obj.obj[obj.cnt].style.width) - obj.PAD_X*2)+'px';
-				img.style.height = (parseInt(obj.obj[obj.cnt].style.height) - obj.PAD_Y*2)+'px';
+//				img.style.height = (parseInt(obj.obj[obj.cnt].style.height) - obj.PAD_Y*2)+'px';
 
 				if (obj.cnt < obj.SHOW_CNT)
 					obj.obj[obj.cnt].style.left = (obj.cnt*parseInt(obj.obj[obj.cnt].style.width))+'px';
@@ -113,11 +120,11 @@ class ELF_Galery { // ELF Galery v 2.0
 			let j = 0;
 			for (let j = 0;j < this.SHOW_CNT; j ++) {
 				let _jq1 = $(this.obj[i]);
-				_jq1.stop().animate({left:_shft},this.duration);
+				_jq1.stop().animate({left:_shft},this.DURATION);
 				i = i+1 >= this.cnt?0:i+1;
 			}
 			let _jq2 = $(this.obj[_next]);
-			_jq2.stop().css({left:_set}).animate({left:_shft},this.duration);
+			_jq2.stop().css({left:_set}).animate({left:_shft},this.DURATION);
 			switch(direct) {
 				case 'right':
 					this.ptr = _next;

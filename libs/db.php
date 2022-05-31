@@ -558,6 +558,7 @@ class Db {
 						'regexp'		=> regvalue | null (def),
 						'regexp_alert'	=> alert message | null (def),
 						'unique'		=> `field name in table DB` | false (def),
+						'ununique_id'=> => ID value | 0 (def),
 						'equal'			=> value | null {def},
 						'equal_name'	=> equal field name
 					],
@@ -589,7 +590,7 @@ class Db {
 				}
 				elseif (!empty($v['unique'])
 					&& !empty($data[$k])
-					&& $this->get("`{$v['unique']}`='{$data[$k]}'")) {
+					&& $this->get("`{$v['unique']}`='{$data[$k]}'".(!empty($v['ununique_id'])?" AND `id`!={$v['ununique_id']}":""))) {
 					Elf::$_data['error'] .= Elf::lang()->item('error.field.unique',$v['name'])."\n";
 					$ret = false;
 				}

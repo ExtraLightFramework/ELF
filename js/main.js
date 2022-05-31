@@ -247,6 +247,11 @@ $(function() {
 			_scroll_un_top = false;
 		}
 		_prev_scroll_window = $(this).scrollTop();
+		// == elf-scroll-top-btn
+		if (!_scroll_on_top)
+			$('#elf-scroll-top-btn').css({display:'block'}).stop().animate({opacity:'.5'}, 300);
+		else
+			$('#elf-scroll-top-btn').stop().animate({opacity:'0'},300,function(){$(this).css({display:'none'})});
 	});
 	$(document).on('mouseout','div.popup',function() {
 		hidePopup = setTimeout('_hidePopup()',800);
