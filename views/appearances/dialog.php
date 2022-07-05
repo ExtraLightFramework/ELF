@@ -1,7 +1,7 @@
-	<div class="auth-dialog" id="<% wid %>" data-app="appearance /views/appearances/dialog">
+	<div class="dialog" id="<% wid %>" data-app="appearance /views/appearances/dialog">
 		<div class="top">
 			<?=Elf::get_data('caption')?Elf::get_data('caption'):'<% lang:systemdialog %>'?>
-			<i class="fas fa-times-circle close-btn" title="<% lang:closeunsave %>" onclick="<?=Elf::get_data('close_func')?Elf::get_data('close_func'):'hideDialog(<% wid %>)'?>" data-id="<% wid %>"></i>
+			<i class="fas fa-times-circle dialog-close-btn" title="<% lang:closeunsave %>" onclick="<?=Elf::get_data('close_func')?Elf::get_data('close_func'):'hideDialog(<% wid %>)'?>" data-id="<% wid %>"></i>
 		</div>
 		<div class="text">
 		<?=Elf::load_template(Elf::get_data('dialog'))?>

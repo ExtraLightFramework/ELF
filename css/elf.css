@@ -293,7 +293,7 @@ div.dialog {
     left: 1%;
   }
 }
-div.dialog div.top {
+div.dialog .top {
   background: #141414;
   border-top-right-radius: 10px;
   -webkit-border-top-right-radius: 10px;
@@ -304,8 +304,9 @@ div.dialog div.top {
   padding: 10px 20px;
   color: #fff;
   width: 100%;
+  position: relative;
 }
-div.dialog div.text {
+div.dialog .text {
   background: #fff;
   border-bottom-right-radius: 10px;
   -webkit-border-bottom-right-radius: 10px;
@@ -317,6 +318,11 @@ div.dialog div.text {
   color: #000;
   width: 100%;
 }
+div.dialog i.dialog-close-btn {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
 div.dialog-static {
   position: fixed;
   box-shadow: none;
@@ -326,6 +332,21 @@ div.dialog-static div.text {
   background: transparent;
   padding: 0;
   border-radius: 0;
+}
+div.dialog-wide {
+  margin-bottom: 30px;
+}
+@media (min-width: 1255px) {
+  div.dialog-wide {
+    width: 90%;
+    left: 5%;
+  }
+}
+@media (max-width: 1254px) {
+  div.dialog-wide {
+    width: 96%;
+    left: 2%;
+  }
 }
 /* ========= INPUT, SELECT, TEXTAREA styles ======= */
 textarea {
@@ -1097,19 +1118,4 @@ div.slider-frm form {
 }
 .auth-dialog div.alert a {
   font-size: 14px;
-}
-.wide-dialog {
-  margin-bottom: 30px;
-}
-@media (min-width: 1255px) {
-  .wide-dialog {
-    width: 90%;
-    left: 5%;
-  }
-}
-@media (max-width: 1254px) {
-  .wide-dialog {
-    width: 96%;
-    left: 2%;
-  }
 }
