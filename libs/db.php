@@ -316,8 +316,10 @@ class Db {
 		if (self::$mysqli->errno) {
 			if (!$soft)
 				throw new \Exception("MySQL query error. ERRNO: ".self::$mysqli->errno .", ERROR: ". self::$mysqli->error.", SQL: ".$sql);
-			else
-				Elf::set_data('error',self::$mysqli->error);
+			else {
+				if ($log)
+					Elf::set_data('error',self::$mysqli->error);
+			}
 		}
 		else {
 			if (preg_match("/^(select|show)/i", $sql)) {
@@ -478,7 +480,7 @@ class Db {
 	}
 	function cnt($where = null, $orderby = '') {
 		$ret = 0;
-		$obj = $where?$this->_select("COUNT(`id`) AS `cnt`")->_where($where):$this->_select("COUNT(`id`) AS `cnt`");
+		$obj = $where?$this->_select("COUNT(*) AS `cnt`")->_where($where):$this->_select("COUNT(`id`) AS `cnt`");
 		$obj = $orderby?$obj->_orderby($orderby)->_limit(1):$obj->_limit(1);
 		if ($ret = $obj->_prepare()->_execute()) {
 			$ret = $ret[0]['cnt'];
@@ -555,6 +557,7 @@ class Db {
 		'field1' => [
 						'name'			=> name field (req),
 						'required'		=> true | false (def),
+						'alert'			=> alert message | null (def.)
 						'regexp'		=> regvalue | null (def),
 						'regexp_alert'	=> alert message | null (def),
 						'unique'		=> `field name in table DB` | false (def),
@@ -570,6 +573,7 @@ class Db {
 	Some RegExp:
 	email - ^([a-zA-Z0-9_]|\-|\.)+@(([a-z0-9]|\-)+\.)+[a-z]{2,6}$
 	phone - ^\+((\d{1,2})[\- ]?)?(\(?\d{2,4}\)?[\- ]?)?[\d\- ]{7,10}$
+			или ^\+?(\d{1,3})?[- ]?\(?(?:\d{2,3})\)?[- ]?\d{3}[- ]?\d{2}[- ]?\d{2}$
 	password - ^[a-zA-Z0-9_]{6,12}$
 	****************************************************/
 	protected function chk_req_fields($fields = []) {
@@ -577,26 +581,31 @@ class Db {
 		if ($fields) {
 			$data = Elf::input()->data();
 			Elf::$_data['error'] = '';
+			Elf::$_data['names_with_error'] = [];
 			foreach ($fields as $k=>$v) {
 				if (!empty($v['required'])
 					&& (!isset($data[$k]) || empty($data[$k]))) {
-					Elf::$_data['error'] .= Elf::lang()->item('error.field.is.empty',$v['name'])."\n";
+					Elf::$_data['error'] .= empty($v['alert'])?Elf::lang()->item('error.field.is.empty',$v['name'])."\n":$v['alert']."\n";
+					Elf::$_data['names_with_error'][] = $k;
 					$ret = false;
 				}
 				elseif (!empty($v['regexp'])
 					&& (!isset($data[$k]) || !preg_match("/".$v['regexp']."/", $data[$k]))) {
 					Elf::$_data['error'] .= (!empty($v['regexp_alert'])?$v['regexp_alert']:Elf::lang()->item('error.field.regexp',$v['name']))."\n";
+					Elf::$_data['names_with_error'][] = $k;
 					$ret = false;
 				}
 				elseif (!empty($v['unique'])
 					&& !empty($data[$k])
 					&& $this->get("`{$v['unique']}`='{$data[$k]}'".(!empty($v['ununique_id'])?" AND `id`!={$v['ununique_id']}":""))) {
 					Elf::$_data['error'] .= Elf::lang()->item('error.field.unique',$v['name'])."\n";
+					Elf::$_data['names_with_error'][] = $k;
 					$ret = false;
 				}
 				elseif (isset($v['equal']) && ($v['equal'] !== null)
 					&& isset($data[$k]) && ($v['equal'] != $data[$k])) {
 					Elf::$_data['error'] .= Elf::lang()->item('error.field.equal',$v['name'],isset($v['equal_name'])?$v['equal_name']:'undefined')."\n";
+					Elf::$_data['names_with_error'][] = $k;
 					$ret = false;
 				}
 			}

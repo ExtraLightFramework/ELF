@@ -23,6 +23,10 @@ class Pagination {
 			$exp_path = '';
 			$exp = parse_url($url);
 			$scheme = !empty($exp['scheme'])&&($exp['scheme']=='javascript')?'javascript:':'';
+			if ($scheme == 'javascript:')
+				$add_page_postfix = false;
+			else
+				$add_page_postfix = true;
 			if (!empty($exp['path']) && !empty($exp['query']))
 				$exp_path = $exp['path'].'?';
 			elseif (empty($exp['query']))
@@ -52,42 +56,42 @@ class Pagination {
 				
 				if (isset($firstoffset)) {
 					$exp[$pos] = $firstoffset;
-					$ret .= "<a href='".($firsturl?$firsturl:$scheme.$exp_path.implode("/", $exp))."' title='<% lang:pagination:tobegin %>'><i class='fas fa-chevron-circle-left'></i></a>";
+					$ret .= "<a href='".($firsturl?$firsturl:$scheme.$exp_path.implode("/", $exp)).($add_page_postfix?"/?page=".$exp[$pos]:"")."' title='<% lang:pagination:tobegin %>'><i class='fas fa-chevron-circle-left'></i></a>";
 				}
 				else
 					$ret .= '<span class="pagination-clear"><i class="fas fa-chevron-circle-left"></i></span>';
 				if (isset($prevlink)) {
 					$exp[$pos] = $prevlink;
-					$ret .= "<a href='".(!$prevlink&&$firsturl?$firsturl:$scheme.$exp_path.implode("/", $exp))."' title='<% lang:pagination:reward %>'><i class='fas fa-chevron-left'></i></a>";
+					$ret .= "<a href='".(!$prevlink&&$firsturl?$firsturl:$scheme.$exp_path.implode("/", $exp)).($add_page_postfix?"/?page=".$exp[$pos]:"")."' title='<% lang:pagination:reward %>'><i class='fas fa-chevron-left'></i></a>";
 				}
 				else
 					$ret .= '<span class="pagination-clear"><i class="fas fa-chevron-left"></i></span>';
 				for ($i = $counterbeg; $i < $counterend; $i ++) {
 					$exp[$pos] = $i-1;
 					if ($exp[$pos] != $offset)
-						$ret .= "<a class='pagination-num-lnk' href='".(!$exp[$pos]&&$firsturl?$firsturl:$scheme.$exp_path.implode("/", $exp))."' title='<% lang:pagination:topage %> ".$i."'>".$i."</a>";
+						$ret .= "<a class='pagination-num-lnk' href='".(!$exp[$pos]&&$firsturl?$firsturl:$scheme.$exp_path.implode("/", $exp)).($add_page_postfix?"/?page=".$exp[$pos]:"")."' title='<% lang:pagination:topage %> ".$i."'>".$i."</a>";
 					else
 						$ret .= "<span class='pagination-num-lnk pagination-selected'>".$i."</span>";
 				}
 				if (isset($nextlink)) {
 					$exp[$pos] = $nextlink;
-					$ret .= "<a href='".$scheme.$exp_path.implode("/", $exp)."' title='<% lang:pagination:forward %>'><i class='fas fa-chevron-right'></i></a>";
+					$ret .= "<a href='".$scheme.$exp_path.implode("/", $exp).($add_page_postfix?"/?page=".$exp[$pos]:"")."' title='<% lang:pagination:forward %>'><i class='fas fa-chevron-right'></i></a>";
 				}
 				else
 					$ret .= '<span class="pagination-clear"><i class="fas fa-chevron-right"></i></span>';
 				if (isset($lastoffset)) {
 					$exp[$pos] = $lastoffset;
-					$ret .= "<a href='".$scheme.$exp_path.implode("/", $exp)."' title='<% lang:pagination:toend %>'><i class='fas fa-chevron-circle-right'></i></a>";
+					$ret .= "<a href='".$scheme.$exp_path.implode("/", $exp).($add_page_postfix?"/?page=".$exp[$pos]:"")."' title='<% lang:pagination:toend %>'><i class='fas fa-chevron-circle-right'></i></a>";
 				}
 				else
 					$ret .= '<span class="pagination-clear"><i class="fas fa-chevron-circle-right"></i></span>';
 				$ret .= '</div>';
 				if (!$offset)
-					Elf::$_data['pagination.seo'] = '<link rel="next" href="'.Elf::site_url(false).$url.'1" />';
+					Elf::$_data['pagination.seo'] = '<link rel="canonical" href="'.(Elf::site_url(false).str_replace('page/','',$url)).'/" /><link rel="next" href="'.Elf::site_url(false).$url.'/1/?page=1" />';
 				elseif (($offset+1) == $colpages)
-					Elf::$_data['pagination.seo'] = '<link rel="canonical" href="'.($firsturl?Elf::site_url(false).$firsturl:Elf::site_url(false).str_replace('page/','',$url)).'" /><link rel="prev" href="'.Elf::site_url(false).$url.($offset-1).'" />';
+					Elf::$_data['pagination.seo'] = '<link rel="canonical" href="'.($firsturl?Elf::site_url(false).$firsturl:Elf::site_url(false).str_replace('page/','',$url)).'/" /><link rel="prev" href="'.Elf::site_url(false).$url.'/'.($offset-1).'/?page='.($offset-1).'" />';
 				else 
-					Elf::$_data['pagination.seo'] = '<link rel="canonical" href="'.($firsturl?Elf::site_url(false).$firsturl:Elf::site_url(false).str_replace('page/','',$url)).'" /><link rel="next" href="'.Elf::site_url(false).$url.($offset+1).'" /><link rel="prev" href="'.Elf::site_url(false).$url.($offset-1).'" />';
+					Elf::$_data['pagination.seo'] = '<link rel="canonical" href="'.($firsturl?Elf::site_url(false).$firsturl:Elf::site_url(false).str_replace('page/','',$url)).'/" /><link rel="next" href="'.Elf::site_url(false).$url.'/'.($offset+1).'/?page='.($offset+1).'" /><link rel="prev" href="'.Elf::site_url(false).$url.'/'.($offset-1).'/?page='.($offset-1).'" />';
 				if ($show_more && isset($nextlink)) {
 					$exp[$pos] = $nextlink;
 					$lnk = $scheme.$exp_path.implode("/", $exp);

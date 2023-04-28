@@ -65,8 +65,9 @@ class Input {
 				if (!is_array($v))
 					$ret[$k] = htmlspecialchars($v);
 				else {
-					foreach ($v as $kk=>$vv)
-						$ret[$k][$kk] = htmlspecialchars($vv);
+					foreach ($v as $kk=>$vv) {
+						$ret[$k][$kk] = !is_array($vv)?htmlspecialchars($vv):$vv;
+					}
 				}
 			}
 		}

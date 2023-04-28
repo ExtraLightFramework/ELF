@@ -27,9 +27,10 @@ class Auth extends \Elf\Controllers\Main {
 		}
 		else {// is AUTH action init
 			//print_r(Elf::routing()->params());exit;
-			$this->auth(isset(Elf::routing()->params()[0])?Elf::routing()->params()[0]:null,
-								isset(Elf::routing()->params()[1])?Elf::routing()->params()[1]:true,
-								isset(Elf::routing()->params()[2])?Elf::routing()->params()[2]:false);
+//			print_r(Elf::routing()->params());exit;
+			$this->auth(isset(Elf::routing()->params()[0])?Elf::routing()->params()[0]:$group,
+								isset(Elf::routing()->params()[1])?Elf::routing()->params()[1]:$redirect,
+								isset(Elf::routing()->params()[2])?Elf::routing()->params()[2]:$after_auth_redirect);
 		}
 	}
 	function index() {
@@ -45,13 +46,13 @@ class Auth extends \Elf\Controllers\Main {
 		Elf::$_data['title'] = Elf::lang('auth')->item('title');
 		if (Elf::input()->get('datain')) {
 			$user = new $this->model;
-			if ($user->auth(Elf::input()->get('login'),Elf::input()->get('passwd'))) {
+			if ($user->auth(Elf::input()->get('login'),Elf::input()->get('passwd'),Elf::input()->get('remme'))) {
 				if (($group === null) || (Elf::session()->get('group')&$group)) {
 					if ($after_auth_redirect)
 						Elf::redirect($after_auth_redirect===true?'':base64_decode($after_auth_redirect));
 					else
 						$this->index();
-					return;
+					exit;
 				}
 				else {
 					if ($after_auth_redirect)
@@ -67,7 +68,7 @@ class Auth extends \Elf\Controllers\Main {
 					Elf::redirect($redirect===true?'':base64_decode($redirect));
 				else {
 					parent::index();
-					return;
+					exit;
 				}
 			}
 		}
@@ -75,12 +76,12 @@ class Auth extends \Elf\Controllers\Main {
 													'appearance'=>'appearances/auth',
 													'group'=>(int)$group,
 													'redirect'=>$redirect?($redirect===true?1:base64_encode($redirect)):'',
-													'after_auth_redirect'=>$after_auth_redirect?($after_auth_redirect===true?'':base64_encode($after_auth_redirect)):''],Elf::input()->data(false)));
+													'after_auth_redirect'=>$after_auth_redirect?($after_auth_redirect===true?'':$after_auth_redirect):''],Elf::input()->data(false)));
 		if ($redirect)
 			Elf::redirect($redirect===true?'':base64_decode($redirect));
 		else {
 			parent::index();
-			return;
+			exit;
 		}
 	}
 	function logout() {

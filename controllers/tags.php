@@ -10,7 +10,7 @@ class Tags extends Admin {
 	
 	function __construct() {
 		parent::__construct();
-		$this->tags = new Elf\Libs\Tags;
+		$this->tags = new Elf\Libs\Tags('catalog');
 	}
 	
 	function index($offset = 0) {
@@ -30,7 +30,7 @@ class Tags extends Admin {
 		Elf::redirect('tags/index/'.$offset);		
 	}
 	function del_tag_content() {
-		if (($freq = $this->tags->_del_tag_content(Elf::input()->get('tid'),
+		if (($freq = $this->tags->_del_tag(Elf::input()->get('tid'),
 												Elf::input()->get('cid'))) !== false) {
 			echo json_encode(['ok'=>1,'freq'=>$freq]);
 		}

@@ -14,7 +14,6 @@ img/*
 js/ckeditor.min/
 /robots.txt
 /rss.xml
-/sitemap.xml
 /_ini.php
 crontab/*
 fonts/*
@@ -24,3 +23,10 @@ favicon.ico
 sync_server.php
 .preprocessors/.less.log
 sync_server_new.php
+/yandex_*.html
+/google*.html
+/sitemap*
+/yml.xml
+/new_yml.xml
+/icml.xml
+hansa_parser/*

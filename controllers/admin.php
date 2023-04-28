@@ -7,7 +7,7 @@ use Elf;
 class Admin extends Auth {
 	function __construct($redirect = null) {
 		Elf::set_data('action',Elf::site_url().'admin/index');
-		parent::__construct(GROUP_ADMIN|GROUP_TECH, true, null, $redirect?$redirect:'/admin/index');
+		parent::__construct(GROUP_ADMIN|GROUP_TECH, true, null, $redirect?$redirect:base64_encode('/admin/index'));
 		Elf::set_layout('admin');
 	}
 	function index() {

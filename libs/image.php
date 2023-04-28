@@ -18,7 +18,7 @@ class Image {
 	private $_orient; //horizontal|vertical|square
 
 	function __construct($src, $dst = '') {
-		if ($sz = @getimagesize($src)) {
+		if ($sz = getimagesize($src)) {
 			$this->src = $src;
 			if (empty($dst))
 				$this->dst = $src;

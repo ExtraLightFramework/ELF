@@ -1,12 +1,10 @@
 <?php
 	define ('_VALID_CODE', 1);
-	
 	if (is_dir('install')) {
 		require_once('install/install.php');
 	}
 	else {
 		require_once('elf.php');
-	
 		$c = Elf::routing()->controller_to();
 		$c = new $c;
 		if (method_exists($c,Elf::routing()->method_to()))

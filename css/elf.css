@@ -20,7 +20,7 @@ body {
     display: none !important;
   }
 }
-@media (max-width: 1255px) and (min-width: 980px) {
+@media (max-width: 1255px) and (min-width: 1100px) {
   body .hide-in-m {
     display: none !important;
   }
@@ -46,7 +46,7 @@ a {
     font-size: 15px;
   }
 }
-@media (max-width: 1255px) and (min-width: 980px) {
+@media (max-width: 1255px) and (min-width: 1100px) {
   body,
   input,
   select,
@@ -65,10 +65,13 @@ a {
   }
 }
 a {
-  color: #141414;
+  color: #141424;
 }
 a:hover {
   color: #539ad7;
+}
+li {
+  font-size: 1.2em;
 }
 #modal {
   z-index: 100;
@@ -155,7 +158,7 @@ a:hover {
   font-size: 1.5rem;
   z-index: 99;
 }
-@media (max-width: 730px) and (min-width: 430px), (max-width: 1255px) and (min-width: 980px) {
+@media (max-width: 730px) and (min-width: 430px), (max-width: 1255px) and (min-width: 1100px) {
   .cookie-agreement {
     font-size: 0.75rem;
     padding: 1.5em;
@@ -168,7 +171,7 @@ a:hover {
   font-size: 1.5rem;
   color: #fff;
 }
-@media (max-width: 730px) and (min-width: 430px), (max-width: 1255px) and (min-width: 980px) {
+@media (max-width: 730px) and (min-width: 430px), (max-width: 1255px) and (min-width: 1100px) {
   .cookie-agreement a {
     font-size: 0.75rem;
   }
@@ -235,7 +238,7 @@ table th {
   border: 1px solid #eee;
   border-radius: 25px;
 }
-@media (max-width: 1255px) and (min-width: 980px), (max-width: 730px) and (min-width: 430px) {
+@media (max-width: 1255px) and (min-width: 1100px), (max-width: 730px) and (min-width: 430px) {
   .elf-page-not-found {
     width: 96%;
   }
@@ -276,25 +279,26 @@ div.dialog {
   z-index: 200;
   color: #fff;
   background: transparent;
+  overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
 }
-@media (max-width: 1255px) and (min-width: 980px) {
+@media (max-width: 1255px) and (min-width: 1100px) {
   div.dialog {
     width: 96%;
     left: 2%;
   }
 }
-@media (max-width: 730px) and (min-width: 430px) {
+@media (max-width: 730px) and (min-width: 430px), (max-width: 430px) {
   div.dialog {
     width: 98%;
     left: 1%;
   }
 }
 div.dialog .top {
-  background: #141414;
+  background: #141424;
   border-top-right-radius: 10px;
   -webkit-border-top-right-radius: 10px;
   -moz-border-radius-topright: 10px;
@@ -317,6 +321,8 @@ div.dialog .text {
   padding: 20px 20px 10px;
   color: #000;
   width: 100%;
+  position: relative;
+  overflow-y: auto;
 }
 div.dialog i.dialog-close-btn {
   position: absolute;
@@ -348,13 +354,29 @@ div.dialog-wide {
     left: 2%;
   }
 }
+div.dialog-top-ctrl-blck {
+  width: 100%;
+  position: sticky;
+  top: -20px;
+  z-index: 200;
+  text-align: right;
+  background-color: #fff;
+  padding: 0.75em 0;
+}
+div.dialog-top-ctrl-blck i {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 2em;
+  margin-left: 0.75em;
+}
 /* ========= INPUT, SELECT, TEXTAREA styles ======= */
 textarea {
   resize: none;
 }
 input,
 textarea,
-select {
+select,
+button {
   padding: 5px;
   margin: 5px 1%;
   box-sizing: border-box;
@@ -362,19 +384,21 @@ select {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border: none;
-  border: 1px solid #141414;
+  border: 1px solid #141424;
   outline: none;
   width: 100%;
   color: #000;
 }
 input:hover,
 textarea:hover,
-select:hover {
+select:hover,
+button:hover {
   border-color: #539ad7;
 }
 input:focus,
 textarea:focus,
-select:focus {
+select:focus,
+button:focus {
   border-color: #d1eaff;
 }
 select {
@@ -483,7 +507,7 @@ div.close-dialog-button-min {
 div.popup {
   position: absolute;
   background: #fff;
-  border: 1px solid #141414;
+  border: 1px solid #141424;
   border-width: 5px;
   border-style: solid;
   border-color: #d1eaff;
@@ -491,12 +515,12 @@ div.popup {
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   z-index: 300;
-  color: #141414;
+  color: #141424;
 }
 div.popup a.popup-mnu-lnk {
   display: block;
   padding: 3px 5px;
-  color: #141414;
+  color: #141424;
   text-decoration: none;
 }
 div.popup a.popup-mnu-lnk:hover {
@@ -517,7 +541,7 @@ div.system-baloon {
   z-index: 300;
   word-break: break-all;
 }
-@media (max-width: 1255px) and (min-width: 980px) {
+@media (max-width: 1255px) and (min-width: 1100px) {
   div.system-baloon {
     margin-left: -150px;
     width: 300px;
@@ -574,7 +598,8 @@ table.edit tr.data:hover td {
   background-color: #454f68;
 }
 table.edit tr.data img.icon {
-  max-width: 400px;
+  max-width: 200px;
+  max-height: 150px;
 }
 div.mini-alert,
 div.mini-note {
@@ -660,10 +685,10 @@ div.select-clever-option {
   cursor: pointer;
   padding: 3px;
   height: auto;
-  color: #141414;
+  color: #141424;
 }
 div.select-clever-option:hover {
-  background-color: #141414;
+  background-color: #141424;
   color: #fff;
 }
 div.select-clever-option img {
@@ -769,6 +794,7 @@ label.elf-radio input:checked + span > div.slider {
 /* ===== PAGINATION STYLES ======= */
 div.pagination {
   padding: 10px 0;
+  width: 100%;
 }
 div.pagination,
 div.pagination a {
@@ -870,7 +896,7 @@ ul.bread-crumbs-line i {
 .elf-forms-system-info {
   padding: 2em 0 0;
   font-size: 0.65em;
-  color: #141414;
+  color: #141424;
 }
 .form-proc-blck {
   position: relative;
@@ -888,7 +914,7 @@ ul.bread-crumbs-line i {
   padding: 2px;
   margin: 2px 1%;
   width: 98% !important;
-  background-color: #141414;
+  background-color: #141424;
   color: #fff;
 }
 .form-fields-editor td,
@@ -896,7 +922,7 @@ ul.bread-crumbs-line i {
   padding-top: 0.75em;
 }
 h6.field-title {
-  color: #141414;
+  color: #141424;
   font-size: 10px;
   margin: 0 0.5em;
 }
@@ -950,7 +976,7 @@ h6.field-title {
 }
 .form-fields-editor-mover div i {
   font-size: 11px;
-  color: #141414;
+  color: #141424;
   cursor: pointer;
 }
 .form-fields-editor-mover div i:hover {
@@ -966,14 +992,14 @@ tr.elf-form-related-recs-data:hover th {
 }
 .elf-form-related-recs td,
 .elf-form-related-recs th {
-  border: 1px solid #141414;
+  border: 1px solid #141424;
   font-size: 12px;
   padding: 2px;
-  color: #141414;
+  color: #141424;
 }
 .elf-form-related-recs-top td {
   color: #fff;
-  background-color: #141414;
+  background-color: #141424;
   font-weight: bold;
 }
 .elf-form-picture {
@@ -1018,7 +1044,7 @@ div.slider-frm form {
     left: calc(50% - 300px);
   }
 }
-@media (max-width: 1255px) and (min-width: 980px) {
+@media (max-width: 1255px) and (min-width: 1100px) {
   .auth-dialog {
     width: 50%;
     left: 25%;
@@ -1066,7 +1092,7 @@ div.slider-frm form {
   margin-top: 20px;
 }
 .auth-dialog .text a {
-  color: #141414;
+  color: #141424;
 }
 .auth-dialog .text input[type=radio],
 .auth-dialog .text input[type=checkbox] {
@@ -1075,7 +1101,7 @@ div.slider-frm form {
 .auth-dialog .text input[type=button],
 .auth-dialog .text input[type=submit] {
   width: 40%;
-  background-color: #141414;
+  background-color: #141424;
   color: #fff;
   cursor: pointer;
   border: none;
@@ -1083,7 +1109,7 @@ div.slider-frm form {
 }
 .auth-dialog .text input[type=button]:hover,
 .auth-dialog .text input[type=submit]:hover {
-  background-color: #363636;
+  background-color: #363646;
 }
 .auth-dialog .text input[type=button].twice,
 .auth-dialog .text input[type=submit].twice {
@@ -1101,7 +1127,7 @@ div.slider-frm form {
 .auth-dialog th {
   padding: 13px 20px 0 0;
   text-align: right;
-  color: #141414;
+  color: #141424;
 }
 .auth-dialog .info {
   padding-top: 22px;

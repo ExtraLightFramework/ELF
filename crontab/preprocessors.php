@@ -73,6 +73,6 @@ function less($file) {
 	$to = str_replace(DIRNAME.'/.'.LESS.'/','',pathinfo($file, PATHINFO_DIRNAME)) . 
 								'/'.pathinfo($file, PATHINFO_FILENAME).'.'.LESS_EXT_OUT;
 	exec(sprintf(LESS_CMD, escapeshellcmd($file), $to));
-	echo $to;
+	echo $to."\n\n";
 	chmod($to, 0666);
 }

@@ -1,3 +1,8 @@
+/*
+@m-res: ~"(max-width: "(@large-resolution - 1)~") and (min-width: @{middle-resolution})";
+@mm-res: ~"(max-width: "(@middle-resolution - 1)~") and (min-width: @{small-resolution})";
+@s-res: ~"(max-width: "(@small-resolution - 1)~")";
+*/
 .elf-scrollbar-cont {
   margin-top: 0;
   z-index: 1;

@@ -1,3 +1,8 @@
+/*
+@m-res: ~"(max-width: "(@large-resolution - 1)~") and (min-width: @{middle-resolution})";
+@mm-res: ~"(max-width: "(@middle-resolution - 1)~") and (min-width: @{small-resolution})";
+@s-res: ~"(max-width: "(@small-resolution - 1)~")";
+*/
 .elf-uploader {
   min-width: 140px;
   min-height: 140px;
@@ -138,13 +143,13 @@
   width: 90%;
   color: #000;
   top: 5%;
+  left: 5%;
   text-align: center;
-  z-index: 20;
-  padding: 20% 5% 5%;
+  z-index: 500;
+  padding: 20px 5%;
   font-size: 12px;
   line-height: 19px;
   display: none;
-  z-index: 2;
   background-color: #ddd;
 }
 .elf-uploader-info {

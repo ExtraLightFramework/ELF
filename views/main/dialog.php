@@ -10,7 +10,7 @@
 	<div class="dialog" id="<% wid %>" data-app="appearance /views/main/dialog">
 		<div class="top">
 			<?=Elf::get_data('caption')?Elf::get_data('caption'):'<% lang:systemdialog %>'?>
-			<div class="close-dialog-button" title="<% lang:closeunsave %>" <?=Elf::get_data('close_func')?'onclick="'.Elf::get_data('close_func').'"':''?> data-id="<% wid %>"></div>
+			<div class="close-dialog-button" title="<% lang:closeunsave %>" data-id="<% wid %>"></div>
 		</div>
 		<div class="text">
 		<?=Elf::load_template(Elf::get_data('dialog'))?>

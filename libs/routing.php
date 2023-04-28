@@ -23,7 +23,11 @@ class Routing extends Db {
 			$this->uri = substr($_SERVER['REQUEST_URI'],0,strlen(DIR_ALIAS))==DIR_ALIAS?substr($_SERVER['REQUEST_URI'],strlen(DIR_ALIAS)):$_SERVER['REQUEST_URI'];
 		else
 			$this->uri = $_SERVER['REQUEST_URI'];
-		$this->uri = preg_replace(["/('|%22)/","/(\:)/"],["","%3A"],$this->uri);
+		if (($pos = strpos($this->uri,'?')) !== false) {
+			$this->uri = substr($this->uri,0,$pos);
+		}
+		$this->uri = preg_replace(["/('|%22)/","/(\:)/","/\?/"],["","%3A","/"],$this->uri);
+//		echo $this->uri;exit;
 		parent::__construct('routing');
 	}
 	function init() {
@@ -54,16 +58,21 @@ class Routing extends Db {
 
 		$this->controller_to = $this->controller;
 		$this->method_to = $this->method;
-		while ($res = $this->get("`controller`='".addslashes(urldecode($this->controller_to))."'
-									AND `method` IN ('".addslashes(urldecode($this->method_to))."','*')",
-									"`controller`,`method` DESC")) {
+		while (($res = $this->get("`controller`='".addslashes(urldecode($this->controller_to))."'
+									AND ".($this->method_to?"`method` IN ('".addslashes(urldecode($this->method_to))."')":
+											"`method` IS NULL"),
+									"`controller`,`method` DESC"))
+				|| ($res = $this->get("`controller`='".addslashes(urldecode($this->controller_to))."'
+									AND `method` IN ('*')",
+									"`controller`,`method` DESC"))) {
 			$this->controller_to = $res['controller_to'];
 			$this->method_to = $res['method_to'];
 			$last_res = $res;
 			if ($res['is_last'])
 				break;
 		}
-
+//		echo $this->controller_to.' '.$this->method_to;
+//print_r($last_res);exit;
 		if ($last_res) {
 			if (($last_res['params_to'])
 				&& ($last_res['params_to'] = explode("&amp;",$last_res['params_to']))) {
@@ -85,12 +94,14 @@ class Routing extends Db {
 			if ($this->canonical = $last_res['canonical'])
 				Elf::$_data['canonical'] = $last_res['canonical'];
 		}
+//		throw new \Exception(print_r($last_res, true).' '.$last_res['method'].' '.$this->method);
 		if (empty($this->controller_to)) {
 			$this->controller_to = $this->determ_def_controller();
 			$this->method_to = DEFAULT_METHOD;
 		}
-		elseif (!file_exists(ROOTPATH.APP_DIR.'/'.CONTROLLERS_DIR.'/'.strtolower($this->controller_to).EXT)
-			&& !file_exists(ROOTPATH.CONTROLLERS_DIR.'/'.strtolower($this->controller_to).EXT)) {
+		elseif ((!file_exists(ROOTPATH.APP_DIR.'/'.CONTROLLERS_DIR.'/'.strtolower($this->controller_to).EXT)
+			&& !file_exists(ROOTPATH.CONTROLLERS_DIR.'/'.strtolower($this->controller_to).EXT))
+			|| (!empty($last_res) && !$last_res['method'] && $this->method)) {
 			if (!Elf::is_xml_request()) {
 				$this->controller_to = $this->determ_def_controller();
 				$this->method_to = METHOD_404;
@@ -157,29 +168,26 @@ class Routing extends Db {
 		$cto = $cto?$cto:DEFAULT_CONTROLLER;
 		$mto = $mto?$mto:DEFAULT_METHOD;
 		$hash = null;
+		$data['controller'] = $c;
+		$data['method'] = $m;
+		$data['controller_to'] = $cto;
+		$data['method_to'] = $mto;
+		$data['params_to'] = $params_to;
+		$data['tm'] = time();
+		if (!empty($seo['title']))
+			$data['title'] = $seo['title'];
+		if (!empty($seo['description']))
+			$data['description'] = $seo['description'];
+		if (!empty($seo['keywords']))
+			$data['keywords'] = $seo['keywords'];
+		
 		if ($rec = $this->get("`controller`='".$c."' AND `method`='".$m."'","`controller`,`method`")) {
-			$this->_update(['controller'=>$c,
-										'method'=>$m,
-										'controller_to'=>$cto,
-										'method_to'=>$mto,
-										'params_to'=>$params_to,
-										'tm'=>time(),
-										'title'=>!empty($seo['title'])?$seo['title']:null,
-										'description'=>!empty($seo['description'])?$seo['description']:null,
-										'keywords'=>!empty($seo['keywords'])?$seo['keywords']:null])
-						->_where("`id`=".$rec['id'])->_limit(1)->_execute();
+			unset($data['controller'], $data['method']);
+			$this->_update($data)->_where("`id`=".$rec['id'])->_limit(1)->_execute();
 			$ret = $rec['id'];
 		}
 		else {
-			$ret = $this->_insert(['controller'=>$c,
-										'method'=>$m,
-										'controller_to'=>$cto,
-										'method_to'=>$mto,
-										'params_to'=>$params_to,
-										'tm'=>time(),
-										'title'=>!empty($seo['title'])?$seo['title']:null,
-										'description'=>!empty($seo['description'])?$seo['description']:null,
-										'keywords'=>!empty($seo['keywords'])?$seo['keywords']:null])->_execute();
+			$ret = $this->_insert($data)->_execute();
 		}
 		if (!empty($ret)) {
 			$hash = md5($ret.':'.$c.':'.$m);

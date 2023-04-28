@@ -1,5 +1,23 @@
 RewriteEngine on
 
+# все редиректы в таблице rkst_redirector
+
+# Prevent rewrite the .well-known directory used by LetsEncrypt by rules below of this rule
+RewriteRule "^\.well-known/" - [L]
+
+# Prevent dot directories (hidden directories like .git) to be exposed to the public
+# Except for the .well-known directory used by LetsEncrypt a.o
+RewriteRule "/\.|^\.(?!well-known/)" - [F]
+
+# Rewrite www.example.com -> example.com -- used with SEO Strict URLs plugin
+RewriteCond %{HTTP_HOST} .
+RewriteCond %{HTTP_HOST} ^www.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# Force rewrite to https for every host #!^on$
+RewriteCond %{HTTPS} =off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1/%{QUERY_STRING} [L]
+RewriteRule ^(.*)$ index.php/$1/?%{QUERY_STRING} [L]

@@ -6,6 +6,9 @@
     <!-- insert below module items [DO NOT REMOVE THIS]-->
 
     <!-- module items end -->
+	<?php if (Elf::session()->get('group')&GROUP_SV):?>
+    <a href="{site_url}slog/index" title="статистика работы операторов" <?=Elf::routing()->controller()=='slog'?'class="selected"':''?>>Статистика</a>
+	<?php endif;?>
     <a href="{site_url}" title="перейти на сайт" target="_blank">На сайт</a>
     <a href="{site_url}admin/logout" title="выйти из системы">Выход</a>
 </div>

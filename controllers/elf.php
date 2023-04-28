@@ -8,9 +8,9 @@ class Elf {
 	
 	function reload_captcha() {
 		if (\Elf::input()->get('name'))
-			echo "data:image/png;base64,".\Elf::captcha(\Elf::input()->get('name'),\Elf::input()->get('len')?(int)\Elf::input()->get('len'):4,true);
+			echo \Elf::captcha(\Elf::input()->get('name'),\Elf::input()->get('len')?(int)\Elf::input()->get('len'):4,true);
 		else
-			echo "data:image/png;base64,".\Elf::captcha('captcha',\Elf::input()->get('len')?(int)\Elf::input()->get('len'):4,true);
+			echo \Elf::captcha('captcha',\Elf::input()->get('len')?(int)\Elf::input()->get('len'):4,true);
 		exit;
 	}
 	function loadtemplate() {

@@ -218,21 +218,6 @@ class ELF_Uploader { // ELF Uploader v 2.0
 			obj.file.addEventListener("change", () => this.onChange(obj));
 			obj.append(obj.file);
 			
-			// ===== Paster Init
-			obj.paster = document.createElement('div');
-			obj.paster.classList.add('elf-uploader-paster');
-			obj.paster.innerHTML = 'Вставить изображение из буфера?<br />';
-			btn = document.createElement('div');
-			btn.classList.add('elf-uploader-paster-ok','elf-uploader-paster-ctrl','elf-uploader-btns');
-			btn.innerHTML = 'Да';
-			btn.addEventListener('click', () => this.pasterConfirm(obj));
-			obj.paster.append(btn);
-			btn = document.createElement('div');
-			btn.classList.add('elf-uploader-paster-cancel','elf-uploader-paster-ctrl','elf-uploader-btns');
-			btn.innerHTML = 'Нет';
-			btn.addEventListener('click', () => this.pasterCancel(obj));
-			obj.paster.append(btn);
-			obj.append(obj.paster);
 			
 			// ===== Image INIT =========
 			obj.img = document.createElement('img');
@@ -243,6 +228,21 @@ class ELF_Uploader { // ELF Uploader v 2.0
 			else {
 				obj.img.src = ELF_Uploader.BLANK_IMAGE+'?'+Math.random();
 				obj.imgIsBlank = true;
+				// ===== Paster Init
+				obj.paster = document.createElement('div');
+				obj.paster.classList.add('elf-uploader-paster');
+				obj.paster.innerHTML = 'Вставить изображение из буфера?<br />';
+				btn = document.createElement('div');
+				btn.classList.add('elf-uploader-paster-ok','elf-uploader-paster-ctrl','elf-uploader-btns');
+				btn.innerHTML = 'Да';
+				btn.addEventListener('click', () => this.pasterConfirm(obj));
+				obj.paster.append(btn);
+				btn = document.createElement('div');
+				btn.classList.add('elf-uploader-paster-cancel','elf-uploader-paster-ctrl','elf-uploader-btns');
+				btn.innerHTML = 'Нет';
+				btn.addEventListener('click', () => this.pasterCancel(obj));
+				obj.paster.append(btn);
+				obj.append(obj.paster);
 			}
 			obj.append(obj.img);
 			obj.img.addEventListener("load", () => this.imgOnLoad(obj));
@@ -699,6 +699,8 @@ class ELF_Uploader { // ELF Uploader v 2.0
 				for (let i = 0; i < items.length; i++) {
 					if (items[i].type.indexOf("image") !== -1) {
 						ELF_Uploader.uplReadyFile = items[i].getAsFile();
+//						console.log(this.params);
+						this.params.pasteron = 1;
 						isPaste = true;
 						break;
 					}
@@ -706,6 +708,7 @@ class ELF_Uploader { // ELF Uploader v 2.0
 				if (isPaste)
 //					alert('Image not found in Clipboard');
 //				else
+				if (obj.paster)
 					obj.paster.style.display = 'block';
 			}
 		}
@@ -715,14 +718,24 @@ class ELF_Uploader { // ELF Uploader v 2.0
 		}
 	}
 	pasterConfirm(obj) {
-		obj.paster.style.display = 'none';
-		this._pasteHandler(obj);
+		if (obj.paster) {
+			obj.paster.style.display = 'none';
+			this._pasteHandler(obj);
+		}
 	}
 	pasterCancel(obj) {
-		obj.paster.style.display = 'none';
+		if (obj.paster) {
+			obj.paster.style.display = 'none';
+		}
 	}
 	_pasteHandler(obj) {
-		this.uploadFile(obj, ELF_Uploader.uplReadyFile);
+		if (this.multy) {
+			let _obj = this._init();
+			this.root.append(_obj);
+			this.uploadFile(obj, ELF_Uploader.uplReadyFile);
+		}
+		else
+			this.uploadFile(obj, ELF_Uploader.uplReadyFile);
 	}
 	static pasteImageFromClpbrd(obj) {
 		alert('Функция временно недоступна. Используйте Ctrl+V для вставки из буфера');
@@ -777,9 +790,10 @@ class ELF_Uploader { // ELF Uploader v 2.0
 		dta.append(obj.file.name,file);
 		obj.xhr.open('POST', this.uploader, true);
 		obj.xhr.send(dta);
+		this.params.pasteron = 0;
 	}
 	setPicture(obj, resp) {
-		console.log(resp);
+//		console.log(resp);
 		if (resp && resp.icon && resp.src) {
 			obj.img.src = resp.icon+'?'+Math.random();
 			obj.objcrop.img.src = resp.src+'?'+Math.random();
@@ -787,6 +801,8 @@ class ELF_Uploader { // ELF Uploader v 2.0
 			obj.input.setAttribute('value',resp.name);
 			obj.imgIsBlank = false;
 			obj.id = 'elf-uploader-item-'+Math.random();
+			obj.paster.remove();
+			obj.paster = null;
 		}
 		else
 			alert('Invalid Image parameters return. Return: '+resp);
@@ -812,6 +828,8 @@ class ELF_Uploader { // ELF Uploader v 2.0
 	remFile(obj) {
 		obj.xhrCallback = this.setPictureBlank;
 		obj.xhr.open('POST', this.remover, true);
+//		console.log(this.remover+' '+this.model);
+//		console.log(this.params);
 		let dta = new FormData();
 		dta.append('model', this.model);
 		dta.append('params', this.params);

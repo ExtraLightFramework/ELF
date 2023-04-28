@@ -1,4 +1,4 @@
-@app-color: #141414;
+@app-color: #141424;
 @app-color-light: #539ad7;
 @app-color-ex-light: #d1eaff;
 @app-adv-color: #a0e116;
@@ -19,12 +19,14 @@
 @timescale-color: #183153;
 @large-resolution: 1255px;
 @add1-resolution: 1500px;
+@addm-resolution: 1100px;
 @middle-resolution: 980px;
 @small-resolution: 730px;
 @micro-resolution: 430px;
 
 @l-res: ~"(min-width: @{large-resolution})";
-@m-res: ~"(max-width: @{large-resolution}) and (min-width: @{middle-resolution})";
+@m-res: ~"(max-width: @{large-resolution}) and (min-width: @{addm-resolution})";
+@addm-res: ~"(max-width: @{addm-resolution}) and (min-width: @{middle-resolution})";
 @mm-res: ~"(max-width: @{middle-resolution}) and (min-width: @{small-resolution})";
 @s-res: ~"(max-width: @{small-resolution}) and (min-width: @{micro-resolution})";
 @ss-res: ~"(max-width: @{micro-resolution})";

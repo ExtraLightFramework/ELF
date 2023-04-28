@@ -8,8 +8,6 @@ define ('UPLOADER_PATH',		'img/galery/%%albumdir%%/');
 define ('UPLOADER_ICONS',		'img/galery/%%albumdir%%/icons/');
 define ('UPLOADER_FPATH',		ROOTPATH.UPLOADER_PATH);
 define ('UPLOADER_FICONS',		ROOTPATH.UPLOADER_ICONS);
-define ('UPLOADER_IMAGE_MAX_XSIZE',	4650);
-define ('UPLOADER_IMAGE_MAX_YSIZE',	3000);
 define ('UPLOADER_IMAGE_XSIZE',	600);
 define ('UPLOADER_IMAGE_YSIZE',	480);
 define ('UPLOADER_ICON_XSIZE',	360);
@@ -64,11 +62,16 @@ class Uploaders extends Db {
 		$this->icon_ysize = $this->icon_h = UPLOADER_ICON_YSIZE;
 	}
 	
-	function image_formalize($src, $w = 0, $h = 0, $icon = true) {
+	function image_formalize($src, $w = 0, $h = 0, $icon = true, $resize_src = true) {
 		// Picture
 		$img = new Image($this->fpath.$src);
 		$this->orient = $img->get_orient();
-		$img->_scale($w?$w:$this->image_xsize, $h?$h:$this->image_ysize, $this->resize_ratio);
+		if ($resize_src) {
+			if ($this->orient == 'vertical')
+				$img->_scale($h?$h:$this->image_ysize, $w?$w:$this->image_xsize, $this->resize_ratio);
+			else
+				$img->_scale($w?$w:$this->image_xsize, $h?$h:$this->image_ysize, $this->resize_ratio);
+		}
 		$this->w = $img->get_w();
 		$this->h = $img->get_h();
 		unset($img);
@@ -134,43 +137,39 @@ class Uploaders extends Db {
 	function save_to_db($fname, $params) {
 		return null;
 	}
-	protected function _repl_cont_images($text, $alias) {
+	protected function _repl_cont_images($texts, $alias) {
 		// fomalize IMAGES
-		if (preg_match_all("/<img([^>]+)src=\"([^>\"]+)\"([^>]+)\/>/",$text,$matches)) {
-			if (!empty($matches[2]) && sizeof($matches[2])) {
-				if (!is_dir($this->fpath.$alias))
-					@mkdir($this->fpath.$alias, 0777);
-				foreach ($matches[2] as $v) {
-					$nv = pathinfo($v);
-					$unremfiles[] = $nv['basename'];
-					$oalias = explode("/",$nv['dirname']);
-					if ($alias != $oalias[sizeof($oalias)-1]) {
-						if (file_exists(ROOTPATH.substr($v,1)))
-							rename(ROOTPATH.substr($v,1),$this->fpath.$alias.'/'.$nv['basename']);
-						$text = str_replace($v,'/'.$this->path.$alias.'/'.$nv['basename'],$text);
+		$unremfiles = [];
+		foreach ($texts as $tk=>$text) {
+			if (preg_match_all("/<img([^>]+)src=\"([^>\"]+)\"([^>]+)\/>/",$text,$matches)) {
+				if (!empty($matches[2]) && sizeof($matches[2])) {
+					if (!is_dir($this->fpath.$alias))
+						@mkdir($this->fpath.$alias, 0777);
+					foreach ($matches[2] as $v) {
+						$nv = pathinfo($v);
+						$unremfiles[] = $nv['basename'];
+						$oalias = explode("/",$nv['dirname']);
+						if ($alias != $oalias[sizeof($oalias)-1]) {
+							if (file_exists(ROOTPATH.substr($v,1))) {
+								@unlink(ROOTPATH.substr($nv['dirname'],1).'/icons/'.$nv['basename']);
+								rename(ROOTPATH.substr($v,1),$this->fpath.$alias.'/'.$nv['basename']);
+							}
+							$text = str_replace($v,'/'.$this->path.$alias.'/'.$nv['basename'],$text);
+						}
 					}
 				}
 			}
+			$texts[$tk] = $text;
 		}
 		if (is_dir($this->fpath.$alias) && ($files = scandir($this->fpath.$alias))) {
-			if (!empty($unremfiles)) {
-				foreach ($files as $file) {
-					if (($file != '.')
-						&& ($file != '..')
-						&& file_exists($this->fpath.$alias.'/'.$file)
-						&& !in_array($file,$unremfiles))
-							@unlink($this->fpath.$alias.'/'.$file);
-				}
-			}
-			else {
-				foreach ($files as $file) {
-					if (($file != '.')
-						&& ($file != '..')
-						&& file_exists($this->fpath.$alias.'/'.$file))
-							@unlink($this->fpath.$alias.'/'.$file);
-				}
+			foreach ($files as $file) {
+				if (($file != '.')
+					&& ($file != '..')
+					&& file_exists($this->fpath.$alias.'/'.$file)
+					&& (empty($unremfiles) || !in_array($file,$unremfiles)))
+						@unlink($this->fpath.$alias.'/'.$file);
 			}
 		}
-		return $text;
+		return $texts;
 	}
 }

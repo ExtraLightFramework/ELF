@@ -1,5 +1,5 @@
 <?php if (!defined('_VALID_CODE')) {header('HTTP/1.1 404 Not Found');echo '<h2>Page Not Found</h2>';exit;}
-
+//print_r($_SERVER);exit;
 require_once ("_ini.php");
 
 // ==== !!!!!!
@@ -25,6 +25,7 @@ class Elf {
 	static private $session;
 	static private $settings;
 	static private $history;
+	static private $slog;
 	static private $lang;
 	static private $loaded_classes;
 	static public $_data;
@@ -46,6 +47,9 @@ class Elf {
 		set_exception_handler('Elf::exception_handler');
 		spl_autoload_register('Elf::_autoload');
 		
+		// From old Site redirector
+		Elf\Libs\Redirector::redirect();
+		
 		Elf::$_data = [];
 		
 		self::$settings = new Elf\Libs\Settings;
@@ -53,6 +57,7 @@ class Elf {
 		self::$routing = new Elf\Libs\Routing;
 		self::$session = new Elf\Libs\Session;
 		self::$history = new Elf\Libs\History;
+		self::$slog = new Elf\Libs\Slog;
 		
 		if (DEBUG_MODE) {
 			ini_set('display_errors', true);
@@ -80,11 +85,11 @@ class Elf {
 			exit;
 		}
 		else {
-			if (!(int)self::settings()->_get('DEBUG_MODE')) {
+			if (!self::settings() || !(int)self::settings()->_get('DEBUG_MODE')) {
 				header('HTTP/1.1 404 Not Found');
 				header('Content-Type: text/html; charset=utf-8');
-				echo '<h1>Страница не найдена</h1>';
-				echo '<p>Запрошенная страница не найдена</p>';
+				echo iconv('WINDOWS-1251','UTF-8','<h1>Страница не найдена</h1>');
+				echo iconv('WINDOWS-1251','UTF-8','<p>Запрошенная страница не найдена</p>');
 				exit;
 			}
 			else {
@@ -131,6 +136,9 @@ class Elf {
 	}
 	static public function history() {
 		return self::$history;
+	}
+	static public function slog() {
+		return self::$slog;
 	}
 // =========== LANGS =================
 	static public function lang($lang = 'main') {
@@ -234,7 +242,12 @@ class Elf {
 		return self::session()->get($matches[1]);
 	}
 	static private function _prc_exec($matches) {
-		return call_user_func('Elf::'.$matches[1]);
+		if (method_exists(__CLASS__, $matches[1])) //function_exists('Elf::'.$matches[1]))
+//			return call_user_func('Elf::'.$matches[1]);
+			return call_user_func_array([__CLASS__, $matches[1]], []);
+//			return call_user_func([__NAMESPACE__ .'\Elf', $matches[1]]);
+//		else
+//			self::write_log("ELF method unexists - {$matches[1]}\n");
 	}
 	static public function isset_data($k) {
 		return isset(self::$_data[$k]);
@@ -510,17 +523,17 @@ class Elf {
 	// Сначала заменяем "односимвольные" фонемы.
 		$st = iconv('UTF-8','WINDOWS-1251', $st);
 		if ($st) {
-			$st=strtr($st,"абвгдеёзийклмнопрстуфхъыьэ ",
-					"abvgdeeziyklmnoprstufh_yye-");
-			$st=strtr($st,"АБВГДЕЁЗИЙКЛМНОПРСТУФХЪЫЬЭ ",
-					"ABVGDEEZIYKLMNOPRSTUFH_YYE-");
+			$st=strtr($st,"абвгдеёзийклмнопрстуфхъэ ",
+					"abvgdeezijklmnoprstufh_e-");
+			$st=strtr($st,"АБВГДЕЁЗИЙКЛМНОПРСТУФХЪЭ ",
+					"ABVGDEEZIJKLMNOPRSTUFH_E-");
 	// Затем - "многосимвольные".
 			$st=strtr($st, 
 					array(
 					"ж"=>"zh", "ц"=>"ts", "ч"=>"ch", "ш"=>"sh", 
-					"щ"=>"shch","ь"=>"", "ю"=>"yu", "я"=>"ya",
+					"щ"=>"shch","ь"=>"", "ю"=>"yu", "я"=>"ya", "ы"=>"yi",
 					"Ж"=>"ZH", "Ц"=>"TS", "Ч"=>"CH", "Ш"=>"SH", 
-					"Щ"=>"SHCH","Ь"=>"", "Ю"=>"YU", "Я"=>"YA",
+					"Щ"=>"SHCH","Ь"=>"", "Ю"=>"YU", "Я"=>"YA", "Ы"=>"YI",
 					"ї"=>"i", "Ї"=>"Yi", "є"=>"ie", "Є"=>"Ye")
 				);
 			$st = iconv('windows-1251','utf-8',$st);
@@ -532,6 +545,31 @@ class Elf {
 			return (array)json_decode(htmlspecialchars_decode($json));
 		else
 			return null;
+	}
+	static public function padezh($num, $p1 = '', $p2 = '', $p3 = '') {
+		$ed = (int)(($num/10-(int)($num/10))*10);
+		$de = (int)(($num/100-(int)($num/100))*10);
+		if ($num == 0)
+			return $p3;
+		elseif ((($de>=0) && ($de<1)) || ($de>=2)) {
+			if ($ed == 0)
+				return $p3;
+			elseif ($ed == 1)
+				return $p1;
+			elseif (($ed > 1) && ($ed <= 4))
+				return $p2;
+			elseif ($ed >= 5)
+				return $p3;
+		}
+		elseif ($de==1) {
+			return $p3;
+		}
+	}
+	static public function sec_to_hms($sec) {
+		$h = (int)($sec/3600);
+		$m = (int)(($sec - ($h*3600))/60);
+		$s = $sec - ($h*3600) - ($m*60);
+		return str_pad($h, 2, '0', STR_PAD_LEFT).":".str_pad($m, 2, '0', STR_PAD_LEFT).":".str_pad($s, 2, '0', STR_PAD_LEFT);
 	}
 	static public function show_words($s, $col) {
 		$i = 0;
@@ -547,7 +585,7 @@ class Elf {
 		return self::gen_chpu($text).($add?'-'.$add:'');
 	}
 	static public function gen_chpu($text) {
-		return strtolower(preg_replace('/[^a-zA-Z0-9\-]+/i','',str_replace(" ","-",self::translit(self::show_words($text,12)))));
+		return strtolower(preg_replace('/[^a-zA-Z0-9\-]+/i','',str_replace([" ","/"],"-",self::translit(self::show_words($text,12)))));
 	}
 	static public function captcha($name = 'captcha', $len = 4, $force = false) {
 		if ((self::session()->get($name) && $force)
@@ -558,7 +596,7 @@ class Elf {
 		else
 			$rndint = self::session()->get($name);		
 		$height=30; 
-		$width=70;  
+		$width=100;  
 		$img = imagecreate($width, $height);
 		
 		$black = imagecolorallocate($img, 0, 0, 0);
@@ -574,7 +612,7 @@ class Elf {
 		imagefilledrectangle($img, 0, 0, $width, $height, $white);
 	//	imagerectangle($img, 0, 0, $width-1, $height-1, $darkgreen);
 		
-		imagettftext($img, 24, 0, 10, 25, $black, ROOTPATH.'fonts/OpenGostTypeA.ttf', $rndint);
+		imagettftext($img, 24, 0, 10, 25, $black, ROOTPATH.'fonts/PTSansBold.ttf', $rndint);
 		
 		for ($i=1; $i<=70; $i++) {
 				$int1=rand(5,$width-4);
@@ -598,7 +636,7 @@ class Elf {
 				@unlink(ROOTPATH.'img/captcha/captcha'.$t.'.png');
 			}
 		}
-		return $str;
+		return $str?"data:image/png;base64,{$str}":"";
 	}
 	static public function gen_password($number) {
 /*		'a','b','c','d','e','f',
@@ -626,12 +664,12 @@ class Elf {
 		}
     	return $pass;
 	}
-	static public function send_mail($to, $subject, $text, $sign='', $from = '') {
+	static public function send_mail($to, $subject, $text, $sign='', $from = '', $attach_files = []) {
 		$text = stripslashes(wordwrap($text, 70));
 		$to = trim($to);
 		$subject = trim($subject);
 		$from = $from?$from:MAIL_SENDER;
-		$sign = $sign?$sign:$from;
+		$sign = $sign?$sign:(defined('MAIL_SIGN')?MAIL_SIGN:$from);
 
 	// Заголовки письма === >>>
 	$headers = "Return-Path: ".$from."\r\nReply-to: ".$from."\r\n";
@@ -654,6 +692,19 @@ class Elf {
 	$message .= "Content-Type: text/html; charset=utf-8\r\n";
 	$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
 	$message .= $text . "<br /><br /><p style=\"font-size:10px;color:#999;\">Unsubscribe <a href=\"".self::site_url()."main/unsubscribe/".base64_encode($to)."\">link</a></p>\r\n\r\n";
+	if (sizeof($attach_files)) {
+		foreach ($attach_files as $v) {
+			if (is_file($v) && ($f = fopen($v, 'rb'))) {
+				$file = fread($f, filesize($v));
+				fclose($f);
+				$message .= "--$baseboundary\r\n"; 
+				$message .= "Content-Type: application/octet-stream; name=\"".basename($v)."\"\r\n";  
+				$message .= "Content-Transfer-Encoding: base64\r\n"; 
+				$message .= "Content-Disposition: attachment; filename=\"".basename($v)."\"\r\n\r\n"; 
+				$message .= chunk_split(base64_encode($file))."\r\n";
+			}
+		}
+	}
 	// <<< ==============
 //
 //		$header = "Return-Path: ".MAIL_SENDER."\r\nSender: ".MAIL_SENDER."\r\nReply-to: %%from%%\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: =?utf-8?B?".base64_encode($sign)."?= <".MAIL_SENDER.">\r\nX-Mailer: PHP/".phpversion()."\r\n\r\n";
@@ -679,6 +730,12 @@ class Elf {
 			}
 		}
 		return true;
+	}
+	static public function write_log($mess, $logfile = 'log.txt') {
+		if ($f = fopen(ROOTPATH.'logs/'.$logfile, 'ab')) {
+			fwrite($f, date('d/m/y H:i:s').": ".$mess."\n");
+			fclose($f);
+		}
 	}
 	static public function curl_request($url, $dt = null, $method = "POST", $cookie = '', $headers = null) {
 		if (!function_exists('curl_init'))
@@ -709,8 +766,9 @@ class Elf {
 			$error = json_encode($error);
 		}
 		curl_close($ch);
-		return isset($error)?(array)json_decode($error):(array)json_decode($ret);
+		return isset($error)?json_decode($error, true):json_decode($ret, true);
 	}
+	
 	static public function get_app_views_path() {
 		return self::$app_views_path;
 	}

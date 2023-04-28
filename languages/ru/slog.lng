@@ -1,0 +1,7 @@
+<?php
+
+$lang['title']				= "Статистика работы операторов";
+$lang['catalog:card_edit']	= "Каталог : Редактирование карточки";
+$lang['catalog:card_new']	= "Каталог : Новая карточка";
+$lang['catalog:card_view']	= "Каталог : Просмотр карточки";
+$lang['select_manager']		= "Оператор";

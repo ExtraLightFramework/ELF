@@ -3,8 +3,12 @@
 $lang['title'] 		= "ELF - Extra Light Framework";
 $lang['description']= "ELF is perfect framework for your web application. Easy install and more easy use.";
 $lang['keywords']	= "elf, extra light framework, php framework, php cms";
-$lang['orgname']	= "ExtraLightFramework";
-$lang['main']		= "ELF";
+$lang['orgname']	= "Rokosta service";
+$lang['main']		= "Rokosta";
+
+$lang['lnk.telegram']	= "https://t.me/rokosta_shop";
+$lang['lnk.viber']		= "viber://chat?number=79619419177";
+$lang['lnk.whatsapp']	= "https://wa.me/79058888948";
 
 //GROUPS
 $lang['group.user']		= "Пользователь";
@@ -61,6 +65,7 @@ $lang['ddmmyyyy']			= "дд.мм.гггг";
 $lang['newrec']				= "Новая запись";
 $lang['datanotfound']		= "Данные не найдены";
 $lang['save']				= "Сохранить";
+$lang['saveandexit']		= "Сохранить и выйти";
 $lang['reform']				= "Сформировать";
 $lang['cancel']				= "Отмена";
 $lang['search']				= "Найти";
@@ -76,6 +81,7 @@ $lang['edt']				= "ред.";
 $lang['del']				= "удл.";
 $lang['unexp']				= "неогр.";
 $lang['showall']			= "показать полностью";
+$lang['data.not.found']		= "Данные не найдены";
 
 $lang['yes']				= "Да";
 $lang['no']					= "Нет";

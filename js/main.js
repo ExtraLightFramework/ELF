@@ -45,6 +45,16 @@ function showWW(txt) {
 function hideWW() {
 	hideWaitWnd();
 }
+function loadTemplate(tmpl, out_cont_id, params) {
+	if (typeof params != 'undefined')
+		params.template = tmpl;
+	else
+		params = {template: tmpl};
+	console.log(params);
+	$.post('/elf/loadtemplate', params, function(data) {
+		$('#'+out_cont_id).append(data);
+	});
+}
 function showDialog(obj) {
 	let parms = typeof obj['data-params'] != 'undefined'?obj['data-params']:(obj.getAttribute?obj.getAttribute('data-params'):null);
 	if (parms) {
@@ -66,25 +76,31 @@ function _showDialog(data) {
 	let first = data.indexOf('{');
 	let last = data.lastIndexOf('}');
 	if (last>=0 && first>=0 && (first < last)) {
-		data = data.slice(first,last+1);
-		data = JSON.parse(data);
-		if (data) {
-			if (data.exception)
-				showBaloon(data.exception);
-			else if (data.error)
-				alert(data.error);
-			else if (data.dialog) {
-				$("body").append(data.dialog);
-				$('textarea.ckeditor').each(function() {
-					if (typeof CKEDITOR.instances[$(this).attr('id')] != 'undefined')
-						CKEDITOR.instances[$(this).attr('id')].destroy();
-					create_wyswyg($(this).attr('id'));
-				});
+		try {
+			data = data.slice(first,last+1);
+			data = JSON.parse(data);
+			if (data) {
+				if (data.exception)
+					showBaloon(data.exception);
+				else if (data.error)
+					alert(data.error);
+				else if (data.dialog) {
+					$("body").append(data.dialog);
+					$('textarea.ckeditor').each(function() {
+						if (typeof CKEDITOR.instances[$(this).attr('id')] != 'undefined')
+							CKEDITOR.instances[$(this).attr('id')].destroy();
+						create_wyswyg($(this).attr('id'));
+					});
+				}
+				else if (data.redirect)
+					location.href = data.redirect;
+				else
+					alert(data);
 			}
-			else if (data.redirect)
-				location.href = data.redirect;
-			else
-				alert(data);
+		}
+		catch (e) {
+			console.log(e.message);
+			console.log(data);
 		}
 	}
 	else
@@ -173,7 +189,7 @@ function showBaloon(t) {
 	var _h = $("#"+_bid).height()+35;//+$(window).scrollTop();
 	$("div.system-baloon").each(function() {
 		if ($(this).attr('id')==_bid)
-			$(this).stop().animate({top:'+=100px'},500);
+			$(this).stop().animate({top:'+='+parseInt(100)+'px'},500);//+$(window).scrollTop()
 		else
 			$(this).stop().animate({top:'+='+_h},500);
 	});
@@ -227,7 +243,9 @@ function reloadCaptcha(name, len) {
 $(function() {
 	_help_tooltip_creator();
 	$(document).on('click',"#modal",hideDialogsByModal)
-				.on('click',"div.close-dialog-button",function() {
+				.on('click',".close-dialog-button",function() {
+					if ($(this).data('close-func') && window[$(this).data('close-func')])
+						window[$(this).data('close-func')]();
 					hideDialog($(this).attr('data-id'));
 				}).on('mouseup',function (e) {
 					if (jQuery(e.target).closest(".auto-hider").length > 0) {
@@ -387,18 +405,22 @@ $(function() {
 					alert(data);
 				else if (data && data.error) {
 					showBaloon(data.error);
-					console.log(data.error);
+					if (frm.data('callback-error') && window[frm.data('callback-error')])
+						window[frm.data('callback-error')](data);
+//					console.log(data.error);
 				}
 				else if (data && data.exception) {
 					showBaloon(data.exception);
-					console.log(data.exception);
+					if (frm.data('callback-error') && window[frm.data('callback-error')])
+						window[frm.data('callback-error')](data);
+//					console.log(data.exception);
 				}
 				else {
 					if (data && data.message) {
 						showBaloon(data.message);
 					}
 					if (frm.attr('data-callback')) {
-						let funcs = frm.attr('data-callback').split(';');
+						let funcs = frm.data('callback').split(';');
 						for (let i = 0; i < funcs.length; i ++) {
 							if (window[funcs[i]])
 								window[funcs[i]](data);
