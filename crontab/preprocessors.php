@@ -19,14 +19,15 @@ define ('LESS_CMD', '/usr/local/bin/lessc %s %s > '.LESS_DIR.'.log');
 
 // ------- MAIN LOOP ----------
 $start = COUNTER;
+$allowed_dirs = [LESS_DIR."/app/css",LESS_DIR."/css"];
 while (--$start) {
 
 	// ----------- LESS -------------
 	if (is_dir(LESS_DIR)
-		&& ($files = get_files(LESS_DIR))) {
+		&& ($files = get_files(LESS_DIR, $allowed_dirs))) {
 		$chk = [];
 		if (file_exists(LESS_MONITOR) && ($monitor = fopen(LESS_MONITOR, 'rb'))) {
-			$chk = (array)json_decode(fread($monitor, filesize(LESS_MONITOR)));
+			$chk = @json_decode(fread($monitor, filesize(LESS_MONITOR)), true);
 			fclose($monitor);
 		}
 		foreach ($files as $file) {
@@ -55,13 +56,14 @@ while (--$start) {
 	sleep(DELAY);
 } // --- END MAIN LOOP
 
-function get_files($dir) {
+function get_files($dir, $allowed_dirs) {
 	$ret = [];
 	if ($dh = opendir($dir)) {
 		while ($s = readdir($dh)) {
 			if ($s == '.' || $s == '..') continue;
-			if (is_dir($dir.'/'.$s)) $ret = array_merge($ret, get_files($dir.'/'.$s));
-			if (is_file($dir.'/'.$s)) {
+			if (is_dir($dir.'/'.$s))
+			    $ret = array_merge($ret, get_files($dir.'/'.$s, $allowed_dirs));
+			if (is_file($dir.'/'.$s) && in_array(pathinfo($dir.'/'.$s, PATHINFO_DIRNAME), $allowed_dirs)) {
 				$ret[] = $dir.'/'.$s;
 			}
 		}
