@@ -8,6 +8,7 @@ modules/
 #/.gitignore
 ########################
 
+8921fbe5c05fc58991abc3218d1d44c1/*
 img/*
 !img/design/
 !img/elf_uploader/

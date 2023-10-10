@@ -47,12 +47,14 @@ class Elf {
 		set_exception_handler('Elf::exception_handler');
 		spl_autoload_register('Elf::_autoload');
 		
-		// From old Site redirector
-		Elf\Libs\Redirector::redirect();
 		
 		Elf::$_data = [];
 		
 		self::$settings = new Elf\Libs\Settings;
+		
+		if (REDIRECTOR_ENABLED) // From old Site redirector
+			Elf\Libs\Redirector::redirect();
+
 		self::$input = new Elf\Libs\Input;
 		self::$routing = new Elf\Libs\Routing;
 		self::$session = new Elf\Libs\Session;

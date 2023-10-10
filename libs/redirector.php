@@ -68,7 +68,8 @@ class Redirector {
 			"http://go.mail.ru/search_images",
 			"https://kupit-v-internet-magazine.ru",
 			"https://3ds-ds1.mirconnect.ru",
-			"https://lens.google.com/"
+			"https://lens.google.com/",
+			"https://rokosta.webstab.ru/"
 		];
 		$ret = true;
 		foreach ($chck_list as $v)
